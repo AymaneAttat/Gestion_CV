@@ -24,7 +24,7 @@ class SkillRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'skill' => 'unique:App\Models\Skill,skill'
         ];
     }
 }

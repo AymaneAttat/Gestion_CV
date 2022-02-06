@@ -29,4 +29,5 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 });
 
 Route::get('/skills-index', [SkillsController::class, 'index'])->name('skills.index');
-Route::post('/upload-content',[SkillsController::class,'uploadContent'])->name('import.content');  
+Route::post('/upload-content',[SkillsController::class,'uploadContent'])->name('import.content');
+Route::post('/upload-skill',[SkillsController::class,'store'])->name('skill.store');  

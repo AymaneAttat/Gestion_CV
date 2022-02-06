@@ -19,8 +19,12 @@ class SkillsController extends Controller
         return SkillResource::collection($skills);
     }
 
-    public function store(SkillRequest $request){
-
+    public function store(Request $request){
+        //$skill = Skill::create($request->validated());
+        $skill = new Skill();
+        $skill->skill = $request->skill;
+        $skill->save();
+        return new SkillResource($skill);
     }
 
     public function uploadContent(Request $request){

@@ -39,7 +39,13 @@ const routes = [
     {
         path: '/skills',
         name: 'skills.index',
-        component: SkillIndex
+        component: SkillIndex,
+        beforeEnter: (to, from, next) => {
+            if(!store.getters['auth/authenticated']){
+              return next({ name: 'auth.login'})
+            }
+            next()
+        }
     },/**/
 ];
 
