@@ -13,6 +13,10 @@ use App\Models\Skill;
 
 class SkillsController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth:api');
+    }
+
     public function index(){
         $skills = Skill::get();
         //dd($skills);
@@ -28,7 +32,11 @@ class SkillsController extends Controller
     }
 
     public function uploadContent(Request $request){
+        
         $file = $request->file('uploaded_file');
+        $filename = $file->getClientOriginalName();
+        // Upload file
+        //$file->move('uploads', $filename);
         if($file){
             Excel::import(new SkillsImport, $request->file('uploaded_file')->store('uploads'));
             return response()->json(['message' => "Successfully uploaded"]);
@@ -51,8 +59,19 @@ class SkillsController extends Controller
         }
     }
 
-    public function update(SkillRequest $request, Skill $skill){
+    public function getSkills(Request $request)
+    {
+        $data = Skill::where('skill', 'LIKE','%'.$request->keyword.'%')->get();
+        return response()->json($data); 
+    }
 
+    public function getCountSkills(){
+        $nbr = Skill::all()->count();
+        return response()->json($nbr);
+    }
+
+    public function update(Request $request, Skill $skill){
+        
     }
 
     public function destroy(Skill $skill){

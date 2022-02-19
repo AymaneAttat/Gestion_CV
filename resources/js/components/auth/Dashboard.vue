@@ -28,11 +28,11 @@
     export default {
         components: { Navbar },
         computed: {
-        ...mapGetters({
-            'authenticated': 'auth/authenticated',
-            'user': 'auth/getUser'
-        })
-    },
+            ...mapGetters({
+                'authenticated': 'auth/authenticated',
+                'user': 'auth/getUser'
+            })
+        },
     }
 </script>
 <style lang="">
