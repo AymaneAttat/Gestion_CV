@@ -10,7 +10,14 @@ store.subscribe((mutation) => {
         }else{
             axios.defaults.headers.common['Authorization'] = null
             localStorage.removeItem('token');
+            localStorage.removeItem('role');
         }
     }
-    
+    if(mutation.type === 'auth/setRole'){
+        if(mutation.payload){
+            localStorage.setItem('role', mutation.payload);
+        }else{
+            localStorage.removeItem('role');
+        }
+    }
 })

@@ -28,7 +28,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <form role="form" class="text-start">
+                                    <form @submit.prevent="signup()" role="form" class="text-start">
                                         <div class="input-group input-group-outline my-3">
                                             <label class="form-label">Nom</label>
                                             <input v-model="user.name" type="text" class="form-control">
@@ -46,7 +46,7 @@
                                             <input v-model="user.password_confirmation" type="password" class="form-control">
                                         </div>
                                         <div class="text-center">
-                                            <button type="button" class="btn bg-gradient-primary w-100 my-4 mb-2">S'inscrire</button>
+                                            <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">S'inscrire</button>
                                         </div>
                                         <p class="mt-4 text-sm text-center">
                                             Vous avez déja un compte?
@@ -71,14 +71,19 @@ export default {
                 name: '',
                 email: '',
                 password: '',
-                password__confirmation: ''
-            }
+                password_confirmation: '',
+                role_id: 3
+            },
+            error: []
         }
     },
     methods: {
         async signup(){
             console.log(this.user);
-            await axios.post('api/auth/register', this.user).then(() => this.$router.replace({name: 'auth.login'})).catch(err => console.log(err));
+            await axios.post('api/auth/register', this.user).then(() => this.$router.replace({name: 'auth.login'})).catch(err => 
+                this.error = err.response.data,
+                console.log('check error: ', this.error),//console.log(err)
+            );
 
         }
     }

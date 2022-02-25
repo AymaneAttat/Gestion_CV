@@ -11,9 +11,14 @@
           <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav me-auto">
                 <li v-if="authenticated" class="nav-item">
-                    <router-link class="nav-link" :to="{name: 'dashboard'}">Dashboard</router-link>
+                  <router-link class="nav-link" :to="{name: 'dashboard'}">Dashboard</router-link>
                 </li>
-                
+                <li v-if="authenticated" class="nav-item">
+                  <router-link :to="{name: 'profiles.index'}" class="nav-link">Profiles</router-link>
+                </li>
+                <li v-if="authenticated" class="nav-item">
+                  <router-link :to="{name: 'users.index'}" class="nav-link">users</router-link>
+                </li>
             </ul>
             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                 <li v-if="!authenticated" class="nav-item-active">

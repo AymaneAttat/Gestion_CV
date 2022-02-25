@@ -60,7 +60,8 @@ class AuthController extends Controller
 
         $user = User::create(array_merge(
                     $validator->validated(),
-                    ['password' => bcrypt($request->password)]
+                    ['password' => bcrypt($request->password)],
+                    ['role_id' => $request->role_id]
                 ));
 
         return response()->json([
@@ -110,6 +111,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
+            'role' => auth()->user()->role_id,
             'expires_in' => auth()->factory()->getTTL() * 2000,
             'user' => auth()->user()
         ]);

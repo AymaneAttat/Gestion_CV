@@ -29,43 +29,51 @@
                             </div>
                         </div>
                     </div>
-
-                    <table class="table table-hover table-sm">
-                        <thead>
-                            <tr>
-                                <th scope="col">Email</th>
-                                <th scope="col">PRENOM</th>
-                                <th scope="col">NOM</th>
-                                <th scope="col">Expérience</th>
-                                <th scope="col">Compétence</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="profile in profiles.data">
-                                <th scope="row"><small>{{ profile.email }}</small></th>
-                                <td><small>{{ profile.prenom }}</small></td>
-                                <td><small>{{ profile.nom }}</small></td>
-                                <th scope="row"><small>{{moment(profile.date_debut_experience , "YYYY-MM-DD").fromNow()}}</small></th>
-                                <td><small><b>{{ profile.skill1 ? profile.skill1 : '' }}</b></small> <small><b>{{ profile.skill2 ? '| '+profile.skill2 : '' }}</b></small> <small><b>{{ profile.skill3 ? '| '+profile.skill3 : '' }}</b></small> <small><b>{{ profile.skill4 ? '| '+profile.skill4 : '' }}</b></small> <small><b>{{ profile.skill5 ? '| '+profile.skill5 : '' }}</b></small></td>
-                                <td>
-                                    <router-link :to="{name: 'profiles.test', query: {id: profile.id}}">
-                                         <a>
+                    <div v-if="profiles.length == 0">
+                        <div class="section text-center">
+                            <div class="position-relative">
+                                <img class=" position-relative z-index-2" src="/img/77703-no-data-found.gif" alt="image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive-sm">
+                        <table class="table table-hover table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">PRENOM</th>
+                                    <th scope="col">NOM</th>
+                                    <th scope="col">Expérience</th>
+                                    <th scope="col">Compétence</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="profile in profiles.data">
+                                    <th scope="row"><small>{{ profile.email }}</small></th>
+                                    <td><small>{{ profile.prenom }}</small></td>
+                                    <td><small>{{ profile.nom }}</small></td>
+                                    <th scope="row"><small>{{moment(profile.date_debut_experience , "YYYY-MM-DD").fromNow()}}</small></th>
+                                    <td><small><b>{{ profile.skill1 ? profile.skill1 : '' }}</b></small> <small><b>{{ profile.skill2 ? '| '+profile.skill2 : '' }}</b></small> <small><b>{{ profile.skill3 ? '| '+profile.skill3 : '' }}</b></small> <small><b>{{ profile.skill4 ? '| '+profile.skill4 : '' }}</b></small> <small><b>{{ profile.skill5 ? '| '+profile.skill5 : '' }}</b></small></td>
+                                    <td>
+                                        <router-link :to="{name: 'profiles.test', query: {id: profile.id}}">
+                                            <a>
+                                                <span data-bs-toggle="tooltip" data-bs-placement="top" title="Voir le profile">
+                                                    <b-icon icon="eye" style="color: #ec407a;" animation="throb" font-scale="2" />
+                                                </span>
+                                            </a> 
+                                        </router-link>
+                                        <!--<router-link :to="{name: 'profiles.test', query: {id: profile.id}}"></router-link>
+                                            <a>
                                             <span data-bs-toggle="tooltip" data-bs-placement="top" title="Voir le profile">
                                                 <b-icon icon="eye" style="color: #ec407a;" animation="throb" font-scale="2" />
-                                            </span>
-                                        </a> 
-                                    </router-link>
-                                    <!--<router-link :to="{name: 'profiles.test', query: {id: profile.id}}"></router-link>
-                                        <a>
-                                        <span data-bs-toggle="tooltip" data-bs-placement="top" title="Voir le profile">
-                                            <b-icon icon="eye" style="color: #ec407a;" animation="throb" font-scale="2" />
-                                        </span></a>
-                                    </router-link>-->
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                            </span></a>
+                                        </router-link>-->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <pagination :data="profiles" :limit="2" @pagination-change-page="getResults">
                     </pagination>
                 </div>
@@ -149,7 +157,14 @@ export default {
             axios.get('api/profiles-index?page=' + page)
                 .then(response => {
                 this.profiles = response.data;
-            });
+            }).catch(error => {
+                    this.error = error.response.data
+                    console.log('check error: ', this.error)
+                    this.flashMessage.error({
+                        message: this.error.message,
+                        time: 5000
+                    });
+                });
         },
     },
     mounted() {

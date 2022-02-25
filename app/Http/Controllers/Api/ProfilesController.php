@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\ProfileResource;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\ProfilesImport;
 use Illuminate\Http\Request;
 use App\Models\Profile;
+use App\Models\User;
+use App\Models\Pdf;
 use DB;
 
 class ProfilesController extends Controller
@@ -17,12 +20,15 @@ class ProfilesController extends Controller
     }
 
     public function index(){
+        $this->authorize('viewAny', Profile::class);
         $profiles = Profile::paginate(25);
         return ProfileResource::collection($profiles);
+        //if (Auth::user()->isAdmin) {}auth()->user()
+        //return  response()->json(["message" => "Forbidden"], 403);
     }
     
     public function uploadContent(Request $request){
-        
+        $this->authorize('create', Profile::class);
         $file = $request->file('uploaded_file');
         if($file){
             config(['excel.import.startRow' => 2]);
@@ -35,11 +41,13 @@ class ProfilesController extends Controller
     }
 
     public function show(Profile $profile){
+        $this->authorize('view', Profile::class);
         return new ProfileResource($profile);
     }
 
     public function update(Request $request, Profile $profile){
         //$pro = Profile::findOrFail($profile);
+        $this->authorize('update', Profile::class);
         $profile->nom = $request->nom;
         $profile->prenom = $request->prenom;
         $profile->telephone = $request->telephone;
@@ -55,6 +63,7 @@ class ProfilesController extends Controller
     }
 
     public function destroy(Profile $profile){
+        $this->authorize('delete', Profile::class);
         $profile->delete();
         return response()->noContent();
     }
@@ -115,5 +124,21 @@ class ProfilesController extends Controller
             return ProfileResource::collection($profiles);
         }
         
+    }
+
+    public function uploadCV(Request $request){
+        $request->validate([
+            'file' => 'required|file',
+        ]);
+        if($request->hasFile('file')){//Upload picture for current Post
+            $path = $request->file('file')->store('CV');
+            $cv = new Pdf(['path' => $path]); //or $post->image()->save(Image::make(['path' => $path]))
+            $profile = Profile::findOrFail($request->id);
+            $profile->pdf()->save($cv);
+            return response()->json([
+                'message' => 'CV uploaded successfully'
+            ], 201);
+        }
+
     }
 }

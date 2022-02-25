@@ -42,7 +42,13 @@
                         </div>
                         
                     </div>
-                    
+                        <div v-if="data.length == 0">
+                            <div class="section text-center">
+                                <div class="position-relative">
+                                    <img class=" position-relative z-index-2" src="/img/77703-no-data-found.gif" alt="image">
+                                </div>
+                            </div>
+                        </div>
                         <div class="row row-cols-sm-6 row-cols-2 g-6 py-3 mx-auto" v-if="Books.length == 0">
                             
                                 <div v-for="dat in data" class="col d-flex justify-content-start">
@@ -53,12 +59,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                            <div v-if="data.length == 0">
-                                <div class="section text-center">
-                                    <h2 class="title">Vide</h2>
-                                </div>
-                            </div>
                         </div>
                     <!--    <div class="text-center">
                             <button class="float-center btn btn-secondary" style="background-color: #ac2bac; ">Chercher</button>
@@ -77,6 +77,7 @@
                 </div>
                 <div v-if="profiles.length > 0">
                     <hr><br>
+                    <div class="table-responsive-sm">
                     <table class="table table-hover table-sm">
                         <thead>
                             <tr>
@@ -112,6 +113,7 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
                 </div>
             </div>
         </div>

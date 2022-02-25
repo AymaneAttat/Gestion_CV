@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SkillsController;
 use App\Http\Controllers\Api\ProfilesController;
+use App\Http\Controllers\Api\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,4 +46,19 @@ Route::group(['middleware' => 'api'], function($router){
     Route::get('/searchProfiles', [ProfilesController::class, 'searchProfile'])->name('search.profile');///{id}
     Route::get('/CountProfiles', [ProfilesController::class, 'getCountProfiles'])->name('nbrProfiles');
     Route::get('/liveSearchProfiles', [ProfilesController::class, 'getSearchProfiles'])->name('search.profile1');
+    Route::post('/store-cv',[ProfilesController::class,'uploadCV'])->name('import.CV');
+
+    Route::get('/users-index', [UsersController::class, 'index'])->name('users.index');
 });
+/*
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/permissions', [RoleManager::class, 'permissionsIndex'])->name('permissions.index')->middleware('permission:View All Permissions');
+
+    Route::get('/roles', [RoleManager::class, 'rolesIndex'])->name('roles.index')->middleware('permission:View All Roles');
+
+    Route::post('/roles/{role}/assign/{user}', [RoleManager::class, 'rolesAddUser'])->name('roles.addUser')->middleware('permission:Assign Role');
+
+    Route::post('/roles/{role}/unassign/{user}', [RoleManager::class, 'rolesRemoveUser'])->name('roles.removeUser')->middleware('permission:Unassign Role');
+
+    Route::get('/users', [UsersController::class, 'index'])->name('users.index')->middleware('role:super-admin');
+});*/

@@ -1,0 +1,71 @@
+<template lang="">
+    <div>
+        <Nav />
+        <br><br><br>
+        <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
+            <div class="container">
+                <div class="section text-center">
+                    <div class="table-responsive-sm">
+                        <table class="table table-hover table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">NOM</th>
+                                    <th scope="col">Role</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="user in users.data"><!--v-for="profile in profiles.data"-->
+                                    <th scope="row"><small>{{user.email}}</small></th>
+                                    <td><small>{{user.name}}</small></td>
+                                    <td><small>{{user.role.name}}</small></td>
+                                    <th scope="row"><small>vide</small></th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    import axios from 'axios'
+    import Nav from '.././Nav/Nav.vue'
+export default {
+    components: { Nav },
+    data() {
+        return {
+            users: [],
+            errors: ''
+        }
+    },
+    methods: {
+        async getUsers(){
+            /*const test = await axios.get('api/users')
+            return this.users = test.data.data,
+            console.log(this.users)*/
+            await axios.get('api/users-index')
+                .then(response => 
+                    this.users = response.data,
+                    console.log(this.users)
+                )
+                .catch(error => {
+                    this.errors = error.response.data
+                    console.log('check error: ', this.errors)
+                    this.flashMessage.error({
+                        message: this.errors.message,
+                        time: 5000
+                    });
+                });
+        }
+    },
+    mounted() {
+        this.getUsers()
+    },
+}
+</script>
+<style lang="">
+    
+</style>

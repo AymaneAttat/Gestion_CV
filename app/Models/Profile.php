@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use App\Models\Pdf;
 //use Carbon\Carbon;
 
 class Profile extends Model
@@ -32,23 +34,11 @@ class Profile extends Model
         }
     }
 
-    public function scopeWithFilters($query, $profiles){
-        return $query->whereIn('skill1', $profiles);
+    public function user() {
+        return $this->belongsTo(User::class);
     }
-    /*->when(count($prices), function ($query) use ($prices){
-                $query->where(function ($query) use ($prices) {
-                    $query->when(in_array(0, $prices), function ($query) {
-                            $query->orWhere('price', '<', '5000');
-                        })
-                        ->when(in_array(1, $prices), function ($query) {
-                            $query->orWhereBetween('price', ['5000', '10000']);
-                        })
-                        ->when(in_array(2, $prices), function ($query) {
-                            $query->orWhereBetween('price', ['10000', '50000']);
-                        })
-                        ->when(in_array(3, $prices), function ($query) {
-                            $query->orWhere('price', '>', '50000');
-                        });
-                });
-            }); */
+
+    public function pdf(){
+        return $this->morphOne(Pdf::class, 'pdfable');
+    }
 }

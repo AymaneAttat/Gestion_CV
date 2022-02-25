@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+//use Spatie\Permission\Traits\HasRoles;, HasRoles
+use App\Models\Profile;
+use App\Models\Role;
+use App\Models\Pdf;
 //use Laravel\Sanctum\HasApiTokens;HasApiTokens, 
 
 class User extends Authenticatable implements JWTSubject
@@ -22,6 +26,7 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        'role_id'
     ];
 
     /**
@@ -40,8 +45,20 @@ class User extends Authenticatable implements JWTSubject
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'email_verified_at' => 'datetime'
     ];
+
+    public function profiles(){
+        return $this->hasMany(Profile::class);
+    }
+
+    public function role(){
+        return $this->belongsTo(Role::class);
+    }
+
+    public function pdf(){
+        return $this->morphOne(Pdf::class, 'pdfable');
+    }
     
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.

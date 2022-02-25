@@ -9,7 +9,9 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import LottieAnimation from 'lottie-vuejs/src/LottieAnimation.vue' // import lottie-vuejs 
 import FlashMessage from '@smartweb/vue-flash-message';
-import "vue-gifplayer/src/gif.css"
+import 'animate.css';
+import Gate from './authorization/Gate';
+Vue.prototype.$gate = new Gate(window.user);
 
 Vue.use(LottieAnimation); // add lottie-animation to your global scope
 Vue.use(FlashMessage);
