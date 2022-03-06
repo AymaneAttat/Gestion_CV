@@ -21,9 +21,9 @@ class ProfilesController extends Controller
 
     public function index(){
         $this->authorize('viewAny', Profile::class);
-        $profiles = Profile::paginate(25);
+        $profiles = Profile::with(['pdf'])->paginate(25);
         return ProfileResource::collection($profiles);
-        //if (Auth::user()->isAdmin) {}auth()->user()
+        //if (Auth::user()->isAdmin) {}auth()->user()   pdf
         //return  response()->json(["message" => "Forbidden"], 403);
     }
     
@@ -42,11 +42,16 @@ class ProfilesController extends Controller
 
     public function show(Profile $profile){
         $this->authorize('view', Profile::class);
-        return new ProfileResource($profile);
+        $pro = Profile::with(['pdf'])->findOrFail($profile->id);
+        //$pro->pdf->path;;
+        //$cv = Pdf::where('pdfable_id', $pro->id);
+        //return new ProfileResource($profile);
+        return response()->json($pro);
+        //return response()->json(['pro'=> $pro, 'cv'=> $cv], 200);
     }
 
     public function update(Request $request, Profile $profile){
-        //$pro = Profile::findOrFail($profile);
+        //$pro = Profile::findOrFail($profile);with(['pdf'])->
         $this->authorize('update', Profile::class);
         $profile->nom = $request->nom;
         $profile->prenom = $request->prenom;
@@ -92,7 +97,7 @@ class ProfilesController extends Controller
 
         $profiles = DB::table('profiles')->whereIn('skill1', $members)
         ->orWhereIn('skill2', $members)->orWhereIn('skill3', $members)
-        ->orWhereIn('skill4', $members)->orWhereIn('skill5', $members)->get();
+        ->orWhereIn('skill4', $members)->orWhereIn('skill5', $members)->get();//Success
         
         /*$members = explode(",", $request->select_members);
         $members1 = json_decode( $request->select_members, true );
@@ -117,10 +122,11 @@ class ProfilesController extends Controller
 
     public function getSearchProfiles(Request $request){
         if(isset($request->keyword)){
-            $profiles = DB::table('profiles')->where('nom', 'LIKE','%'.$request->keyword.'%')->orWhere('prenom', 'LIKE','%'.$request->keyword.'%')->orWhere('email', 'LIKE','%'.$request->keyword.'%')->orWhere('skill1', 'LIKE','%'.$request->keyword.'%')->orWhere('skill2', 'LIKE','%'.$request->keyword.'%')->orWhere('skill3', 'LIKE','%'.$request->keyword.'%')->orWhere('skill4', 'LIKE','%'.$request->keyword.'%')->orWhere('skill5', 'LIKE','%'.$request->keyword.'%')->get();
+            //$profiles = DB::table('profiles')->where('nom', 'LIKE','%'.$request->keyword.'%')->orWhere('prenom', 'LIKE','%'.$request->keyword.'%')->orWhere('email', 'LIKE','%'.$request->keyword.'%')->orWhere('skill1', 'LIKE','%'.$request->keyword.'%')->orWhere('skill2', 'LIKE','%'.$request->keyword.'%')->orWhere('skill3', 'LIKE','%'.$request->keyword.'%')->orWhere('skill4', 'LIKE','%'.$request->keyword.'%')->orWhere('skill5', 'LIKE','%'.$request->keyword.'%')->get();
+            $profiles = Profile::with(['pdf'])->where('nom', 'LIKE','%'.$request->keyword.'%')->orWhere('prenom', 'LIKE','%'.$request->keyword.'%')->orWhere('email', 'LIKE','%'.$request->keyword.'%')->orWhere('skill1', 'LIKE','%'.$request->keyword.'%')->orWhere('skill2', 'LIKE','%'.$request->keyword.'%')->orWhere('skill3', 'LIKE','%'.$request->keyword.'%')->orWhere('skill4', 'LIKE','%'.$request->keyword.'%')->orWhere('skill5', 'LIKE','%'.$request->keyword.'%')->get();
             return new ProfileResource($profiles);
         }else{
-            $profiles = Profile::paginate(25);
+            $profiles = Profile::with(['pdf'])->paginate(25);
             return ProfileResource::collection($profiles);
         }
         
@@ -130,8 +136,11 @@ class ProfilesController extends Controller
         $request->validate([
             'file' => 'required|file',
         ]);
-        if($request->hasFile('file')){//Upload picture for current Post
-            $path = $request->file('file')->store('CV');
+        if($request->hasFile('file')){//Upload picture for current Poststore('CV')
+            $filenameWithExt = $request->file('file')->getClientOriginalname();
+            //$extension = $request->file('file')->getClientOriginalExtension();
+            //$fileNameToStore = $filename.'.'.$extension;
+            $path = $request->file('file')->storeAs('CV', $filenameWithExt);
             $cv = new Pdf(['path' => $path]); //or $post->image()->save(Image::make(['path' => $path]))
             $profile = Profile::findOrFail($request->id);
             $profile->pdf()->save($cv);
@@ -139,6 +148,48 @@ class ProfilesController extends Controller
                 'message' => 'CV uploaded successfully'
             ], 201);
         }
+    }
 
+    public function uploadAllCV(Request $request){
+        /*if($request->hasFile('pics')){
+            $files = $request->file('pics');
+            foreach ($files as $file) {
+                $filenameWithExt = $file->getClientOriginalName();
+                //Get just filename
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $profile = Profile::where('email', $filename);
+                if($profile){
+                    $path = $request->file('file')->storeAs('CV', $filenameWithExt);
+                    $cv = new Pdf(['path' => $path]);
+                    $profile->pdf()->save($cv);
+                }
+                //$path = $file->store($contract->id,'uploads');
+            }
+            return response()->json([
+                'message' => 'Toutes les CV enregistrer avec succes'
+            ], 201);
+            return response()->json($request->pics);
+        }*/
+
+        if($request->hasFile('pics')){
+            $files = $request->pics;
+            foreach ($files as $file) {
+                $filenameWithExt = $file->getClientOriginalName();
+                //Get just filename
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $profile = Profile::where('email', $filename)->first();
+                /*return response()->json($profile);*/
+                if($profile){
+                    $path = $file->storeAs('CV', $filenameWithExt);
+                    $cv = new Pdf(['path' => $path]);
+                    $profile->pdf()->save($cv);
+                }
+                //$path = $file->store($contract->id,'uploads');
+            }
+            return response()->json([
+                'message' => 'Toutes les CV enregistrer avec succes'
+            ], 201);
+            /*return response()->json($request->pics);*/
+        }
     }
 }

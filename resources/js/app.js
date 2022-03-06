@@ -10,8 +10,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import LottieAnimation from 'lottie-vuejs/src/LottieAnimation.vue' // import lottie-vuejs 
 import FlashMessage from '@smartweb/vue-flash-message';
 import 'animate.css';
-import Gate from './authorization/Gate';
-Vue.prototype.$gate = new Gate(window.user);
+//import Gate from './authorization/Gate';
+//Vue.prototype.$gate = new Gate(window.user);
 
 Vue.use(LottieAnimation); // add lottie-animation to your global scope
 Vue.use(FlashMessage);
@@ -30,7 +30,7 @@ window.Vue = require('vue').default;
 Vue.component('App', App)
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.use(VueRouter);
-
+//require('vue-loader');
 require('./store/subscriber')
 axios.defaults.baseURL = 'http://localhost:8000/'
 

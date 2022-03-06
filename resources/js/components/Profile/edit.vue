@@ -118,7 +118,7 @@ export default {
         async getProfile(){
             //console.log(this.id)  {{moment(prof.date_debut_experience , 'YYYY-MM-DD').format('YYYY-MM-DD')}} push
             const test = await axios.get('api/show-profile/'+this.id)
-            return this.prof = test.data.data
+            return this.prof = test.data
         },
         async modifierProfile(){
             await axios.put('/api/update-profile/'+ this.prof.id, this.prof).then(() => this.$router.replace({name: 'profiles.test', query: {id: this.prof.id}}))

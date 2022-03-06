@@ -77,13 +77,13 @@
                 </div>
                 <div v-if="profiles.length > 0">
                     <hr><br>
-                    <div class="table-responsive-sm">
-                    <table class="table table-hover table-sm">
+                    <div class="table-responsive table-responsive-sm text-nowrap">
+                    <table class="table table-hover table-sm "> <!--w-auto table-striped-->
                         <thead>
                             <tr>
                                 <th scope="col">
                                     <input type="checkbox" @click="select_all_via_check_box" v-model="all_select"> 
-                                    <span><small> {{ all_select == true ? 'Uncheck All' : "Select All" }} </small></span>
+                                    <span><small>{{ all_select == true ? 'Uncheck All' : "Select All" }}</small></span>
                                 </th>
                                 <th scope="col"><small>Email</small></th>
                                 <th scope="col"><small>Prenom</small></th>
@@ -100,13 +100,12 @@
                                 <td><small>{{ profile.prenom }}</small></td>
                                 <td><small>{{ profile.nom }}</small></td>
                                 <th scope="row"><small>{{moment(profile.date_debut_experience , "YYYY-MM-DD").fromNow()}}</small></th>
-                                <td><small><b>{{ profile.skill1 ? profile.skill1 : '' }}</b></small> <small><b>{{ profile.skill2 ? '| '+profile.skill2 : '' }}</b></small> <small><b>{{ profile.skill3 ? '| '+profile.skill3 : '' }}</b></small> <small><b>{{ profile.skill4 ? '| '+profile.skill4 : '' }}</b></small> <small><b>{{ profile.skill5 ? '| '+profile.skill5 : '' }}</b></small></td>
+                                <td><small style="font-size: 12px;">{{ profile.skill1 ? profile.skill1 : '' }} {{ profile.skill2 ? '| '+profile.skill2 : '' }} {{ profile.skill3 ? '| '+profile.skill3 : '' }} {{ profile.skill4 ? '| '+profile.skill4 : '' }} {{ profile.skill5 ? '| '+profile.skill5 : '' }}</small></td>
                                 <td>
                                     <router-link :to="{name: 'profiles.test', query: {id: profile.id}}">
-                                         <a>
-                                            <span data-bs-toggle="tooltip" data-bs-placement="top" title="Voir le profile">
-                                                <b-icon icon="eye" style="color: #ec407a;" animation="throb" font-scale="2" />
-                                            </span>
+                                         <a data-bs-toggle="tooltip" data-bs-placement="top" title="Voir le profile">
+                                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" style="vertical-align: -0.125em;" width="1.3em" height="1.3em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill="#ec407a" d="M13.5 0h-12C.675 0 0 .675 0 1.5v13c0 .825.675 1.5 1.5 1.5h12c.825 0 1.5-.675 1.5-1.5v-13c0-.825-.675-1.5-1.5-1.5zM13 14H2V2h11v12zM4 9h7v1H4zm0 2h7v1H4zm1-6.5a1.5 1.5 0 1 1 3.001.001A1.5 1.5 0 0 1 5 4.5zM7.5 6h-2C4.675 6 4 6.45 4 7v1h5V7c0-.55-.675-1-1.5-1z"/></svg>
+                                            
                                         </a> 
                                     </router-link>
                                 </td>

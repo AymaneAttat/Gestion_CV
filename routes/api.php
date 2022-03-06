@@ -47,6 +47,7 @@ Route::group(['middleware' => 'api'], function($router){
     Route::get('/CountProfiles', [ProfilesController::class, 'getCountProfiles'])->name('nbrProfiles');
     Route::get('/liveSearchProfiles', [ProfilesController::class, 'getSearchProfiles'])->name('search.profile1');
     Route::post('/store-cv',[ProfilesController::class,'uploadCV'])->name('import.CV');
+    Route::post('/store-all-cv',[ProfilesController::class,'uploadAllCV'])->name('import.all.CV');
 
     Route::get('/users-index', [UsersController::class, 'index'])->name('users.index');
 });

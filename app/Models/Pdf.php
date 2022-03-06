@@ -19,7 +19,11 @@ class Pdf extends Model
         return $this->morphTo();
     }
 
-    public function url(){
+    /*public function url(){
         return Storage::url($this->path);
+    }*/
+
+    public function getpathAttribute($value){
+        return $this->attributes['path'] = Storage::url($value);
     }
 }
