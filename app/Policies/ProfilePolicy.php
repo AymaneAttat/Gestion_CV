@@ -64,7 +64,7 @@ class ProfilePolicy
      * @param  \App\Models\Profile  $profile
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Profile $profile)
+    public function delete(User $user)//, Profile $profile
     {
         return in_array($user->role_id, [1, 3]);
     }

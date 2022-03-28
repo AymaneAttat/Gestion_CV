@@ -33,10 +33,10 @@ class ProfilesController extends Controller
         if($file){
             config(['excel.import.startRow' => 2]);
             Excel::import(new ProfilesImport, $request->file('uploaded_file')->store('uploads'));
-            return response()->json(['message' => "Successfully uploaded"]);
+            return response()->json(['message' => "Fichier Excel télécharger avec succès !"]);
         }else {
             //no file was uploaded ->limit(false, 1)
-            throw new \Exception('No file was uploaded', Response::HTTP_BAD_REQUEST);
+            throw new \Exception(['message' => 'Fichier Excel non téléchargé'], Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -95,10 +95,10 @@ class ProfilesController extends Controller
         ->orWhere('skill2', $members)->orWhere('skill3', $members)
         ->orWhere('skill4', $members)->orWhere('skill5', $members)->get();*/
 
-        $profiles = DB::table('profiles')->whereIn('skill1', $members)
+        /*$profiles = DB::table('profiles')->whereIn('skill1', $members)
         ->orWhereIn('skill2', $members)->orWhereIn('skill3', $members)
-        ->orWhereIn('skill4', $members)->orWhereIn('skill5', $members)->get();//Success
-        
+        ->orWhereIn('skill4', $members)->orWhereIn('skill5', $members)->get();//Success*/
+        $profiles = Profile::with(['pdf'])->whereIn('skill1', $members)->orWhereIn('skill2', $members)->orWhereIn('skill3', $members)->orWhereIn('skill4', $members)->orWhereIn('skill5', $members)->get();
         /*$members = explode(",", $request->select_members);
         $members1 = json_decode( $request->select_members, true );
         foreach($members1 as $member){
@@ -191,5 +191,38 @@ class ProfilesController extends Controller
             ], 201);
             /*return response()->json($request->pics);*/
         }
+    }
+
+    public function downloadCV($id){//Request $request
+        /*$pdfData = Pdf::findOrFail($request->id);
+        $path = substr($pdfData->path,22);
+        $path1 = str_replace("/","\*",$path);
+        $path2 = str_replace("*","",$path1);
+        //$pdf = public_path('storage/'.$pdfData->path);
+        $pdf = public_path($path2);
+        return response()->download($pdf);*/
+        /*$pdf = public_path($path2);
+        return response()->download($pdf);
+        $pdf = public_path('storage/CV/3Daissaoui@Gmail.com.pdf');
+        return response()->download($pdf);*/
+
+        /*$file = public_path() . "/storage/CV/3Daissaoui@Gmail.com.pdf";
+        $headers = [
+            'Content-Type' => 'application/pdf',
+        ];
+        return response()->download($file, '3Daissaoui@Gmail.com.pdf.pdf', $headers);*/
+
+        $pdfData = Pdf::findOrFail($id);
+        $path = substr($pdfData->path,21);
+        $pdfNom = substr($path,12);
+        $file = public_path() . $path;
+        $headers = [ 'Content-Type' => 'application/pdf', ];
+        return response()->download($file, $pdfNom, $headers);
+        /*$file = public_path() . "/storage/CV/3Daissaoui@Gmail.com.pdf";
+        $headers = [
+            'Content-Type' => 'application/pdf',
+        ];*/
+        /*return response()->download($file, '3Daissaoui@Gmail.com.pdf.pdf', $headers);
+        return response()->json($pdfNom);*/
     }
 }

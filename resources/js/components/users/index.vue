@@ -5,7 +5,14 @@
         <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
             <div class="container">
                 <div class="section text-center">
-                    <div class="table-responsive-sm">
+                    <div v-if="isEmpty.length === 0">
+                        <div class="section text-center">
+                            <div class="position-relative">
+                                <img class="position-relative z-index-2" width="40%" height="30%" src="/img/77703-no-data-found.gif" alt="image">
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else class="table-responsive-sm">
                         <table class="table table-hover table-sm">
                             <thead>
                                 <tr>
@@ -38,7 +45,8 @@ export default {
     data() {
         return {
             users: [],
-            errors: ''
+            errors: '',
+            isEmpty: ''
         }
     },
     methods: {
@@ -47,17 +55,15 @@ export default {
             return this.users = test.data.data,
             console.log(this.users)*/
             await axios.get('api/users-index')
-                .then(response => 
+                .then((response) => {
                     this.users = response.data,
+                    this.isEmpty = response.data.data,
                     console.log(this.users)
-                )
+                })
                 .catch(error => {
                     this.errors = error.response.data
                     console.log('check error: ', this.errors)
-                    this.flashMessage.error({
-                        message: this.errors.message,
-                        time: 5000
-                    });
+                    this.flashMessage.error({ message: this.errors.message, time: 5000 });
                 });
         }
     },

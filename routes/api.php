@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SkillsController;
 use App\Http\Controllers\Api\ProfilesController;
 use App\Http\Controllers\Api\UsersController;
+use App\Http\Controllers\MailProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,9 @@ Route::group(['middleware' => 'api'], function($router){
     Route::get('/liveSearchProfiles', [ProfilesController::class, 'getSearchProfiles'])->name('search.profile1');
     Route::post('/store-cv',[ProfilesController::class,'uploadCV'])->name('import.CV');
     Route::post('/store-all-cv',[ProfilesController::class,'uploadAllCV'])->name('import.all.CV');
+    Route::get('/downloadPdf/{id}',[ProfilesController::class,'downloadCV'])->name('download.CV');
+
+    Route::post('/sendEmails',[MailProfileController::class,'sendMail'])->name('send.emails');
 
     Route::get('/users-index', [UsersController::class, 'index'])->name('users.index');
 });

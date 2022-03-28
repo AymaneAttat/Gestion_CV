@@ -2,8 +2,8 @@
     <div>
         <Nav />
         <!-- main -->
-        <div class="card card-body shadow-xl mx-3 mx-md-4 mt-4">
-            <section class="my-3 pt-3">
+        <div class="card card-body shadow-xl mx-3 mx-md-4 mt-2">
+            <section class="my-5 pt-3">
                 <div class="container">
                   <div class="row">
                     <div class="col-md-6 m-auto">
@@ -24,7 +24,7 @@
                 </div>
             </section>
         </div>
-        <!-- end main <lottie-animation src="https://assets9.lottiefiles.com/packages/lf20_3dbxj2hv.json"/>-->
+        <!-- end main <lottie-animation src="https://assets9.lottiefiles.com/packages/lf20_3dbxj2hv.json"/> /img/62874-scrolling.gif-->
     </div>
 </template>
 <script>

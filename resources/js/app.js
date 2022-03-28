@@ -10,8 +10,11 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import LottieAnimation from 'lottie-vuejs/src/LottieAnimation.vue' // import lottie-vuejs 
 import FlashMessage from '@smartweb/vue-flash-message';
 import 'animate.css';
-//import Gate from './authorization/Gate';
-//Vue.prototype.$gate = new Gate(window.user);
+//import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+//import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
+
 
 Vue.use(LottieAnimation); // add lottie-animation to your global scope
 Vue.use(FlashMessage);
@@ -27,12 +30,23 @@ require('./bootstrap');
 window.Vue = require('vue').default;
 
 //Vue.component('example-component', require('./components/App.vue').default);
-Vue.component('App', App)
+Vue.component('App', App);
+//Vue.component('VueCtkDateTimePicker', require('vue-ctk-date-time-picker'));
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.use(VueRouter);
 //require('vue-loader');
 require('./store/subscriber')
 axios.defaults.baseURL = 'http://localhost:8000/'
+// before a request is made start the nprogress
+axios.interceptors.request.use(config => {
+    NProgress.start()
+    return config
+})
+// before a response is returned stop nprogress
+axios.interceptors.response.use(response => {
+    NProgress.done()
+    return response
+})
 
 store.dispatch('auth/attempt', localStorage.getItem('token')).then(() => {
     const app = new Vue({

@@ -104,7 +104,8 @@
     </div>
 </template>
 <script>
-    import Nav from '.././Nav/Nav.vue'
+    import Nav from '.././Nav/Nav.vue';
+    import { mapActions } from 'vuex';
 export default {
     components: { Nav },
     data() {
@@ -115,13 +116,14 @@ export default {
         }
     },
     methods: {
-        async getProfile(){
-            //console.log(this.id)  {{moment(prof.date_debut_experience , 'YYYY-MM-DD').format('YYYY-MM-DD')}} push
-            const test = await axios.get('api/show-profile/'+this.id)
-            return this.prof = test.data
+        ...mapActions({
+            'findProfile': 'profile/getProfile',
+        }),
+        getProfile(){//console.log(this.id)  {{moment(prof.date_debut_experience , 'YYYY-MM-DD').format('YYYY-MM-DD')}} push
+            this.findProfile(this.id).then((res) => { this.prof = res });
         },
         async modifierProfile(){
-            await axios.put('/api/update-profile/'+ this.prof.id, this.prof).then(() => this.$router.replace({name: 'profiles.test', query: {id: this.prof.id}}))
+            await axios.put('/api/update-profile/'+ this.prof.id, this.prof).then(() => this.$router.replace({name: 'profiles.test', query: {id: this.prof.id}}), this.flashMessage.success({ message: 'Profile modifier avec succes!', time: 5000 }))
             .catch(error => {
                 this.error = error.response.data
                 console.log('check error: ', this.error)

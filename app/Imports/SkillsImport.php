@@ -4,8 +4,9 @@ namespace App\Imports;
 
 use App\Models\Skill;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class SkillsImport implements ToModel
+class SkillsImport implements ToModel, WithStartRow
 {
     /**
     * @param array $row
@@ -17,5 +18,10 @@ class SkillsImport implements ToModel
         return new Skill([
             'skill' => $row[0],
         ]);
+    }
+    
+    public function startRow(): int
+    {
+        return 2;
     }
 }

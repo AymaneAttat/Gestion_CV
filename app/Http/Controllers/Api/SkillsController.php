@@ -9,6 +9,7 @@ use App\Http\Requests\SkillRequest;
 use Illuminate\Support\Facades\DB;
 use App\Imports\SkillsImport;
 use Illuminate\Http\Request;
+use App\Models\Profile;
 use App\Models\Skill;
 
 class SkillsController extends Controller
@@ -38,8 +39,9 @@ class SkillsController extends Controller
         // Upload file
         //$file->move('uploads', $filename);
         if($file){
+            config(['excel.import.startRow' => 2]);
             Excel::import(new SkillsImport, $request->file('uploaded_file')->store('uploads'));
-            return response()->json(['message' => "Successfully uploaded"]);
+            return response()->json(['message' => "Fichier Excel télécharger avec succès !"]);
         }else {
             //no file was uploaded
             throw new \Exception('No file was uploaded', Response::HTTP_BAD_REQUEST);
@@ -61,13 +63,19 @@ class SkillsController extends Controller
 
     public function getSkills(Request $request)
     {
-        $data = Skill::where('skill', 'LIKE','%'.$request->keyword.'%')->get();
-        return response()->json($data); 
+        if(isset($request->keyword)){
+            $data = Skill::where('skill', 'LIKE','%'.$request->keyword.'%')->get();
+            return response()->json($data);//return new SkillResource($data);
+        }else{
+            $skills = Skill::get();
+            return response()->json($skills);//return SkillResource::collection($skills);
+        }
     }
 
     public function getCountSkills(){
-        $nbr = Skill::all()->count();
-        return response()->json($nbr);
+        $nbrSkills = Skill::all()->count();
+        $nbrProfiles = Profile::all()->count();
+        return response()->json(['nbrSkills' => $nbrSkills, 'nbrProfiles' => $nbrProfiles]);
     }
 
     public function update(Request $request, Skill $skill){

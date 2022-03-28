@@ -13,14 +13,12 @@ import SkillIndex from '../components/skills/index.vue'
 import ProfilesIndex from '../components/Profile/index.vue'
 //import ProfileShow from '../components/Profile/show.vue'
 import ProfileEdit from '../components/Profile/edit.vue'
-import ProfileTest from '../components/Profile/test.vue'
+import ProfileTest from '../components/Profile/show.vue'
 import Permissions from '../components/authorization/Permissions.vue'
 import Roles from '../components/authorization/Roles.vue'
 //import Users from '../components/authorization/Users.vue'
 import NotAuthorized from '../components/authorization/NotAuthorized.vue'
 import UsersIndex from '../components/users/index.vue'
-import UserShow from '../components/users/show.vue'
-import UserEdit from '../components/users/edit.vue'
 
 const routes = [
     {
@@ -93,7 +91,7 @@ const routes = [
     },
     {
         path: '/test',
-        name: 'profiles.test',
+        name: 'profiles.show',
         component: ProfileTest,
         //props: true,
         beforeEnter: (to, from, next) => {
@@ -133,32 +131,6 @@ const routes = [
             }else if(!store.getters['auth/getRole']){
                 return next({ name: 'not-authorized'})
             }
-            next()
-        }
-    },
-    {
-        path: '/user-Show',
-        name: 'users.show',
-        props: true,
-        component: UserShow,
-        beforeEnter: (to, from, next) => {
-            if(!store.getters['auth/authenticated']){
-              return next({ name: 'auth.login'})
-            }
-            next()
-        }
-    },
-    {
-        path: '/user-edit',
-        name: 'users.edit',
-        props: true,
-        component: UserEdit,
-        beforeEnter: (to, from, next) => {
-            if(!store.getters['auth/authenticated']){
-              return next({ name: 'auth.login'})
-            }/*else if(!store.getters['auth/getRole']){
-                return next({ name: 'not-authorized'})
-            }*/
             next()
         }
     },
