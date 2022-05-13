@@ -52,7 +52,7 @@ class ProfilePolicy
      * @param  \App\Models\Profile  $profile
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Profile $profile)
+    public function update(User $user)
     {
         return in_array($user->role_id, [1, 3]);
     }

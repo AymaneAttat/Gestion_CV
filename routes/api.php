@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\SkillsController;
 use App\Http\Controllers\Api\ProfilesController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\MailProfileController;
+use App\Http\Controllers\Api\OrdersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
+    // Send reset password mail
+    Route::post('/reset-password', [AuthController::class, 'sendPasswordResetLink']);
+    // handle reset password form process
+    Route::post('/reset/password', [AuthController::class, 'callResetPassword']);
 });
 
 
@@ -54,6 +59,10 @@ Route::group(['middleware' => 'api'], function($router){
     Route::post('/sendEmails',[MailProfileController::class,'sendMail'])->name('send.emails');
 
     Route::get('/users-index', [UsersController::class, 'index'])->name('users.index');
+
+    Route::post('/save-order',[OrdersController::class,'store'])->name('store.order');
+    Route::get('/historique-index', [OrdersController::class, 'index'])->name('historique.index');
+    Route::get('/SearchHistoriques', [OrdersController::class, 'getSearchHistoriques'])->name('search.Historique');
 });
 /*
 Route::group(['middleware' => 'auth:api'], function () {

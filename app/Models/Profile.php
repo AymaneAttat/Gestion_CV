@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\MailProfile;
 use App\Models\User;
 use App\Models\Pdf;
 //use Carbon\Carbon;
@@ -40,5 +41,10 @@ class Profile extends Model
 
     public function pdf(){
         return $this->morphOne(Pdf::class, 'pdfable');
+    }
+
+    public function mailProfiles()
+    {
+        return $this->belongsToMany(MailProfile::class, 'mail_profile_profile')->withTimestamps();
     }
 }

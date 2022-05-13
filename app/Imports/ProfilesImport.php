@@ -4,10 +4,11 @@ namespace App\Imports;
 
 use App\Models\Profile;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 //use Maatwebsite\Excel\Concerns\WithHeadingRow;WithHeadingRow
 
-class ProfilesImport implements ToModel, WithStartRow
+class ProfilesImport implements ToModel, WithStartRow, WithUpserts
 {
     /**
     * @param array $row
@@ -19,7 +20,7 @@ class ProfilesImport implements ToModel, WithStartRow
     public function model(array $row)
     {
         return new Profile([
-            'email' => $row[0],
+            'email' => trim($row[0]),
             'prenom' => $row[1],
             'nom' => $row[2],
             'telephone' => $row[3],
@@ -37,4 +38,9 @@ class ProfilesImport implements ToModel, WithStartRow
     {
         return 2;
     }/**/
+
+    public function uniqueBy()
+    {
+        return 'nom' && 'prenom';
+    }
 }

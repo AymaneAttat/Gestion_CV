@@ -1,14 +1,14 @@
 @component('mail::message')
 <!-- # Introduction -->
 
-@component('mail::panel')
+
 Salut {{$profile->prenom}} {{$profile->nom}},<br>
 {{$email->body}}
-@endcomponent
+<!--@ component('mail::panel')@ endcomponent-->
 
-@component('mail::button', ['url' => ''])
+<!--@ component('mail::button', ['url' => ''])
 Button Text
-@endcomponent
+@ endcomponent-->
 
 <!-- Thanks,<br> -->
 {{ config('app.name') }}

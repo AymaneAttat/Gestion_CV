@@ -12,9 +12,12 @@ export default {
         
     },
     actions: {
-        async searchProfile(_, credentials){
+        async searchProfile(_, payload){
             try {
-                const result = await axios.get('api/liveSearchProfiles', { params: { keyword: credentials } });
+                var credentials = payload.keyword;
+                var sort_direction = payload.sort_direction;
+                var sort_field = payload.sort_field;
+                const result = await axios.get('api/liveSearchProfiles?keyword='+ credentials +'&sort_direction=' +sort_direction+ '&sort_field=' + sort_field);//const result = await axios.get('api/liveSearchProfiles', { params: { keyword: credentials } });
                 return result;
             } catch (error) {
                 console.log(error.response.data);
@@ -29,12 +32,15 @@ export default {
                 console.log(error.response.data);
             }
         },
-        async paginateProfiles(_, credentials) {
+        async paginateProfiles(_, payload) {
             try {
+                var credentials = payload.page;
+                var sort_direction = payload.sort_direction;
+                var sort_field = payload.sort_field;
                 if (typeof credentials === 'undefined') {
                     credentials = 1;
                 }
-                const result = await axios.get('api/profiles-index?page=' + credentials);
+                const result = await axios.get('api/profiles-index?page=' + credentials + '&sort_direction=' +sort_direction+ '&sort_field=' + sort_field);
                 return result;
             } catch (error) {
                 console.log('check error: ', error.response.data)
@@ -52,6 +58,7 @@ export default {
                 return await axios.post('api/store-all-cv', form, config);
             } catch (error) {
                 console.log('check error: ', error.response.data);
+                return error.response.data;
             }
         },
         async getProfile(_, credentials){

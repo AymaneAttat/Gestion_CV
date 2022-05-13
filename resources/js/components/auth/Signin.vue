@@ -20,26 +20,23 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    
                                     <div v-if="errors" class="alert alert-primary text-white font-weight-bold" role="alert">
-                                        Wrong Email Or Password Please Try Again
+                                        Email ou mot de passe est incorrect, veuillez réessayer.
                                     </div>
-                                    
                                     <form @submit.prevent="submit" role="form" class="text-start">
-                                        <div class="input-group input-group-outline my-3">
-                                            <label class="form-label">Email</label>
-                                            <input v-model="user.email" type="email" class="form-control">
+                                        <div class="input-group input-group-static my-3">
+                                            <label>Email</label>
+                                            <input v-model="user.email" class="form-control" placeholder="" type="email" required>
                                         </div>
-                                        <div class="input-group input-group-outline mb-3">
-                                            <label class="form-label">Mot de passe</label>
-                                            <input v-model="user.password" type="password" class="form-control">
+                                        <div class="input-group input-group-static my-3">
+                                            <label>Mot de passe</label>
+                                            <input v-model="user.password" class="form-control" type="password" required>
                                         </div>
-                                        <div class="form-check form-switch d-flex align-items-center mb-3">
-                                            <input class="form-check-input" type="checkbox" id="rememberMe">
-                                            <label class="form-check-label mb-0 ms-2" for="rememberMe">Remember me</label>
-                                        </div>
-                                            <div class="text-center">
+                                        <div class="text-center">
                                             <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Connecter</button>
+                                            <p class="mt-4 text-sm text-center">
+                                                <router-link :to="{name: 'reset-password'}" class="text-primary text-gradient font-weight-bold">Mot de pass oublier?</router-link>
+                                            </p>
                                         </div>
                                         <p class="mt-4 text-sm text-center">
                                             Vous n'avez pas un compte?
@@ -65,9 +62,10 @@ export default {
         return {
             user: {
                 email: '',
-                password: ''
+                password: '',
             },
-            errors: false
+            errors: false,
+            //error: {}
         }
     },
     methods: {
@@ -75,21 +73,15 @@ export default {
             'SignIn': 'auth/SignIn'
         }),
         submit(){
-            
+            console.log(this.user.remember)
                 this.SignIn(this.user)
                 .then(() => this.$router.replace({name: 'dashboard'}))
-                .catch(error => {
-                    this.errors = true
-                });
+                .catch((error) => { this.errors = true });//, this.flashMessage.error({ message: error.message, time: 5000 })
             
-            
-            /*.catch(error => {
+            /*.catch(error => {, this.error = error
                 /*this.errors = error.response.data
                 console.log('check error: ', this.errors.data)
-                for (const key in error.response.data.errors) {
-                    this.errors += error.response.data.errors[key][0] + ' ';
-                }
-            });*/
+                for (const key in error.response.data.errors) {    this.errors += error.response.data.errors[key][0] + ' ';     }});*/
         },
     }
 }

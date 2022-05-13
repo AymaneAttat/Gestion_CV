@@ -49,6 +49,7 @@ export default {
         },
         async findProfilesBySkills(_, credentials) {
             try {
+                //const headers = {'Content-Type': 'application/json','Accept': 'application/json','Origin': 'http://127.0.0.1:8000'}   , {headers: headers}
                 const result = await axios.get('api/searchProfiles', {params:{select_members: credentials}})
                 console.log(result)
                 return result

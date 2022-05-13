@@ -108,27 +108,31 @@
     import { mapActions } from 'vuex';
 export default {
     components: { Nav },
+    props: ['id'],
     data() {
         return {
             prof: {},
             //id: this.$route.params.id
-            id: this.$route.query.id,
+            //id: this.$route.query.id,
         }
     },
     methods: {
         ...mapActions({
             'findProfile': 'profile/getProfile',
         }),
-        getProfile(){//console.log(this.id)  {{moment(prof.date_debut_experience , 'YYYY-MM-DD').format('YYYY-MM-DD')}} push
+        getProfile(){//console.log(this.id)  {{moment(prof.date_debut_experience , 'YYYY-MM-DD').format('YYYY-MM-DD')}} push    this.$router.replace({name: 'profiles.test', query: {id: this.prof.id}}), 
             this.findProfile(this.id).then((res) => { this.prof = res });
         },
         async modifierProfile(){
-            await axios.put('/api/update-profile/'+ this.prof.id, this.prof).then(() => this.$router.replace({name: 'profiles.test', query: {id: this.prof.id}}), this.flashMessage.success({ message: 'Profile modifier avec succes!', time: 5000 }))
+            await axios.put('/api/update-profile/'+ this.prof.id, this.prof).then(() => this.flashMessage.success({ message: 'Profile modifier avec succes!', time: 5000 }))
             .catch(error => {
                 this.error = error.response.data
                 console.log('check error: ', this.error)
             });
-        }
+        },
+        selectFile(event){
+            this.file = event.target.files[0];
+        },
     },
     mounted() {
         this.getProfile()

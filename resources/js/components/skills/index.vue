@@ -7,10 +7,10 @@
             <div class="container">
                 <div class="row">
                     <div class="col">
-                        <button type="button" class="btn bg-gradient-primary" data-bs-toggle="modal" data-bs-target="#exampleModal11">+ Insérer une Compétence</button>
+                        <button type="button" class="btn bg-gradient-primary" data-bs-toggle="modal" data-bs-target="#exampleModal11"><b-icon icon="plus-square" aria-hidden="true"></b-icon> Une Compétence</button>
                     </div>
                     <div class="col d-flex justify-content-end">
-                        <button type="button" class="btn bg-gradient-primary" data-bs-toggle="modal" data-bs-target="#exampleModal12">+ Insérer des Compétences</button>
+                        <button type="button" class="btn bg-gradient-primary" data-bs-toggle="modal" data-bs-target="#exampleModal12"><b-icon icon="cloud-upload" aria-hidden="true"></b-icon> Des Compétences</button>
                     </div>
                 </div>
                 <!-- Modal une competence -->
@@ -37,13 +37,15 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Insérer des Compétences</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" style="vertical-align: -0.125em;" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 32 32"><path fill="#20744a" fill-rule="evenodd" d="M28.781 4.405h-10.13V2.018L2 4.588v22.527l16.651 2.868v-3.538h10.13A1.162 1.162 0 0 0 30 25.349V5.5a1.162 1.162 0 0 0-1.219-1.095Zm.16 21.126H18.617l-.017-1.889h2.487v-2.2h-2.506l-.012-1.3h2.518v-2.2H18.55l-.012-1.3h2.549v-2.2H18.53v-1.3h2.557v-2.2H18.53v-1.3h2.557v-2.2H18.53v-2h10.411Z"/><path fill="#20744a" d="M22.487 7.439h4.323v2.2h-4.323zm0 3.501h4.323v2.2h-4.323zm0 3.501h4.323v2.2h-4.323zm0 3.501h4.323v2.2h-4.323zm0 3.501h4.323v2.2h-4.323z"/><path fill="#fff" fill-rule="evenodd" d="m6.347 10.673l2.146-.123l1.349 3.709l1.594-3.862l2.146-.123l-2.606 5.266l2.606 5.279l-2.269-.153l-1.532-4.024l-1.533 3.871l-2.085-.184l2.422-4.663l-2.238-4.993z"/></svg>
+                                    Insérer des Compétences</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <b-form @submit.prevent="onSubmit1()">
                                     <b-form-group id="input-group-1" label="" label-for="input-1" description="assurez-vous d’insérer le fichier correct."></b-form-group>
-                                        <b-form-file :state="Boolean(uploaded_file)" placeholder="Insérer un fichier de type csv ou xlsx" drop-placeholder="Déposer le fichier ici..." name="uploaded_file" ref="uploaded_file"  @change="onFileChange"></b-form-file>
+                                        <b-form-file :state="Boolean(uploaded_file)" placeholder="Insérer un fichier de type csv ou xlsx" drop-placeholder="Déposer le fichier ici..." name="uploaded_file" ref="uploaded_file"  @change="onFileChange" required></b-form-file>
                                     </b-form-group>
                                     <button type="submit" class="btn bg-gradient-primary w-auto me-1 mb-0" data-bs-dismiss="modal">Ajouter</button>
                                 </b-form>
@@ -82,14 +84,16 @@
                     <div class="table-responsive table-responsive-sm text-nowrap">
                         <!-- Modal CV -->
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" style="max-width: 80%;">
+                            <div class="modal-dialog" style="max-width: 70%;">
                                 <div class="modal-content">
-                                    <div class="modal-header">
+                                    <!--<div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">CV</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body" style=" min-height:400px; overflow-y: auto;">
-                                        <embed v-bind:src="test.path" frameborder="0" width="100%" height="495">
+                                    </div>onload="disableContextMenu();" onMouseDown="popupMsg('This image is Copyrighted -- Computer Hope 2007')" oncontextmenu="return false" onselectstart="return false" ondragstart="return false" -->
+                                    <div v-model="page = test.path" onload="numPage(test.path)" class="modal-body" style=" min-height:400px; overflow-y: auto;">
+                                        <!--<iframe id="pdfframe" v-bind:src="test.path + '#toolbar=0&navpanes=0&scrollbar=0;readonly=true;disableprint=true;'" width="100%" height="640" frameborder="0" />     style="width: 50%; height: 50%;"
+                                         <embed v-bind:src="test.path" frameborder="0" width="100%" height="495"> title='SOME_TITLE'  onload="disableContextMenu(e){e.preventDefault();}"-->
+                                        <pdf oncontextmenu="return false" v-for="i in pageCount" :key="i" :src="test.path" :page="i"></pdf>
                                     </div>
                                     <div class="modal-footer justify-content-between">
                                         <button type="button" class="btn bg-gradient-dark mb-0" data-bs-dismiss="modal">Fermer</button>
@@ -97,7 +101,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div><!-- end Modal CV -->
+                        </div><!-- end Modal CV "#toolbar=0&navpanes=0&scrollbar=0"-->
                         <!-- Modal Email -->
                         <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModal1Label" aria-hidden="true">
                             <div class="modal-dialog" style="max-width: 50%;">
@@ -108,41 +112,76 @@
                                     </div>
                                     <form @submit.prevent="sendEmail">
                                         <div class="modal-body" style=" min-height:400px; overflow-y: auto;">
-                                            <div class="input-group input-group-static mb-4">
-                                                <label>Titre</label>
-                                                <input v-model="email.title" class="form-control" placeholder="Objet" type="text" >
+                                            <div class="nav-wrapper position-relative end-0">
+                                                <ul class="nav nav-pills nav-fill p-1" role="tablist">
+                                                    <li class="nav-item">
+                                                        <span class="nav-link mb-0 px-0 py-1" :class="{'active': step == 1}" aria-controls="profile" aria-selected="true">Etape 1</span>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <span class="nav-link mb-0 px-0 py-1" :class="{'active': step == 2}" aria-controls="dashboard" aria-selected="false">Etape 2</span>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <span class="nav-link mb-0 px-0 py-1" :class="{'active': step == 3}" aria-controls="dashboard" aria-selected="false">Etape 3</span>
+                                                    </li>
+                                                </ul>
                                             </div>
-                                            <div class="input-group mb-4 input-group-static">
-                                                <label>Contenu</label>
-                                                <textarea v-model="email.body" name="message" class="form-control" id="message" rows="4"></textarea>
-                                            </div>
-                                            <div class="form-group">
-                                                <label style="margin-bottom: 10px;">When to Send:</label>
-                                                <div class="form-control">
-                                                    <span style="margin-right: 20px;">
-                                                        <input type="radio" name="sending"  value="now"  v-model="email.item" checked>
-                                                        <label>Send Now</label>
-                                                    </span>
-                                                    <span>
-                                                        <input type="radio" name="sending"  value="later"  v-model="email.item" >
-                                                        <label>Send Later</label>
-                                                    </span>
+                                            <section v-if="step == 3">
+                                                <div class="input-group input-group-static mt-8 mb-4">
+                                                    <label>Mot de passe du Gmail *</label>
+                                                    <input v-model="email.password" class="form-control" type="password" required>
                                                 </div>
-                                            </div>
-                                            <div class="form-control" v-if="email.item === 'later'">
-                                                <input v-model="email.send_date" class="form-control" type="datetime-local" format="YYYY-MM-DD">
-                                            </div>
+                                            </section>
+                                            <section v-if="step == 2">
+                                                <div class="input-group input-group-static mt-8 mb-4">
+                                                    <label>Titre d'enregistrement</label>
+                                                    <input v-model="email.orderTitle" class="form-control" placeholder="Titre d'enregistrement" type="text" required>
+                                                    <p class="pb-3">Pour enregistrer la recherche du "compétences/profiles/mail".</p>
+                                                </div>
+                                                <div v-if="emailMessageError" class="alert alert-warning text-white font-weight-bold" role="alert">
+                                                    {{emailMessageError}}
+                                                </div>
+                                            </section>
+                                            <section v-if="step == 1">
+                                                <div v-if="emailMessageError" class="alert alert-warning text-white font-weight-bold" role="alert">
+                                                    {{emailMessageError}}
+                                                </div>
+                                                <div class="input-group input-group-static mb-4">
+                                                    <label>Titre *</label>
+                                                    <input v-model="email.title" class="form-control" placeholder="Objet" type="text" required>
+                                                </div>
+                                                <div class="input-group mb-4 input-group-static">
+                                                    <label>Contenu *</label>
+                                                    <textarea v-model="email.body" name="message" class="form-control" id="message" rows="4" required></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="margin-bottom: 10px;">When to Send:</label>
+                                                    <div class="form-control">
+                                                        <span style="margin-right: 20px;">
+                                                            <input type="radio" name="sending"  value="now"  v-model="email.item" checked>
+                                                            <label>Send Now</label>
+                                                        </span>
+                                                        <span>
+                                                            <input type="radio" name="sending"  value="later"  v-model="email.item" >
+                                                            <label>Send Later</label>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-control" v-if="email.item === 'later'">
+                                                    <input v-model="email.send_date" class="form-control" type="datetime-local" format="YYYY-MM-DD">
+                                                </div>
+                                            </section>
                                         </div>
                                         <div class="modal-footer justify-content-between">
-                                            <button type="button" class="btn bg-gradient-dark mb-0" data-bs-dismiss="modal">Fermer</button>
-                                            <button type="submit" class="btn bg-gradient-primary mb-0" data-bs-dismiss="modal">Envoyer</button><!--w-auto table-striped  @change="sendEmail"-->
+                                            <button type="button" class="btn bg-gradient-info mb-0" v-if="step != totalsteps" @click.prevent="nextStep">Suivant</button>
+                                            <button type="button" class="btn bg-gradient-dark mb-0" v-if="step != 1" @click.prevent="prevStep">précédent</button>
+                                            <button type="submit" class="btn bg-gradient-primary mb-0" v-if="step == totalsteps" data-bs-dismiss="modal">Envoyer</button><!--w-auto table-striped  @change="sendEmail"-->
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
                         <!--end Modal Email -->
-            <button type="button" class="btn bg-gradient-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">Envoyer Emai</button>
+                    <button type="button" class="btn bg-gradient-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">Envoyer Email</button>
                     <table class="table table-hover table-sm "> <!--w-auto table-striped-->
                         <thead>
                             <tr>
@@ -150,12 +189,20 @@
                                     <input type="checkbox" @click="select_all_via_check_box" v-model="all_select"> 
                                     <span><small>{{ all_select == true ? 'Uncheck All' : "Select All" }}</small></span>
                                 </th>
-                                <th scope="col"><small>Email</small></th>
-                                <th scope="col"><small>Prenom</small></th>
-                                <th scope="col"><small>Nom</small></th>
-                                <th scope="col"><small>Expérience</small></th>
+                                <th scope="col"><small><span class="text-dark cursor-pointer" @click="sort('email')">Email
+                                    <span v-if="currentSortDir=='asc'">&uarr;</span>
+                                    <span v-else>&darr;</span>
+                                </span></small></th>
+                                <th scope="col"><small><span class="text-dark cursor-pointer" @click="sort('prenom')">Prenom
+                                    <span v-if="currentSortDir=='asc'">&uarr;</span>
+                                    <span v-else>&darr;</span></span></small></th>
+                                <th scope="col"><small><span class="text-dark cursor-pointer" @click="sort('nom')">Nom</span></small></th>
+                                <th scope="col"><small><span class="text-dark cursor-pointer" @click="toggleSort()">Expérience
+                                    <span v-if="oldestFirst">&uarr;</span>
+                                    <span v-else>&darr;</span>
+                                </span></small></th>
                                 <th scope="col"><small>Compétence</small></th>
-                                <th scope="col"><small>Action</small></th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -167,14 +214,24 @@
                                 <th scope="row"><small>{{moment(profile.date_debut_experience , "YYYY-MM-DD").fromNow()}}</small></th>
                                 <td><small style="font-size: 12px;"><b>{{ profile.skill1 ? profile.skill1 : '' }} {{ profile.skill2 ? '| '+profile.skill2 : '' }} {{ profile.skill3 ? '| '+profile.skill3 : '' }} {{ profile.skill4 ? '| '+profile.skill4 : '' }} {{ profile.skill5 ? '| '+profile.skill5 : '' }}</b></small></td>
                                 <td>
-                                    <router-link :to="{name: 'profiles.show', query: {id: profile.id}}">
-                                         <a data-bs-toggle="tooltip" data-bs-placement="top" title="Voir le profile">
-                                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" style="vertical-align: -0.125em;" width="1.3em" height="1.3em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill="#ec407a" d="M13.5 0h-12C.675 0 0 .675 0 1.5v13c0 .825.675 1.5 1.5 1.5h12c.825 0 1.5-.675 1.5-1.5v-13c0-.825-.675-1.5-1.5-1.5zM13 14H2V2h11v12zM4 9h7v1H4zm0 2h7v1H4zm1-6.5a1.5 1.5 0 1 1 3.001.001A1.5 1.5 0 0 1 5 4.5zM7.5 6h-2C4.675 6 4 6.45 4 7v1h5V7c0-.55-.675-1-1.5-1z"/></svg>
-                                        </a> 
+                                    <router-link v-if="is_admin == 1" :to="{name: 'profile.edit', params: {id: profile.id}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier le profile">
+                                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" style="vertical-align: -0.125em; color: #ec407a;" width="1.5em" height="1.6em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path d="M28 30H6V8h13.22l2-2H6a2 2 0 0 0-2 2v22a2 2 0 0 0 2 2h22a2 2 0 0 0 2-2V15l-2 2z" class="clr-i-outline clr-i-outline-path-1" fill="currentColor"/><path d="M33.53 5.84l-3.37-3.37a1.61 1.61 0 0 0-2.28 0L14.17 16.26l-1.11 4.81A1.61 1.61 0 0 0 14.63 23a1.69 1.69 0 0 0 .37 0l4.85-1.07L33.53 8.12a1.61 1.61 0 0 0 0-2.28zM18.81 20.08l-3.66.81l.85-3.63L26.32 6.87l2.82 2.82zM30.27 8.56l-2.82-2.82L29 4.16L31.84 7z" class="clr-i-outline clr-i-outline-path-2" fill="currentColor"/></svg>
                                     </router-link>
-                                    <a v-if="profile.pdf" @click="test = profile.pdf" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                        <svg xmlns="http://www.w3.org/2000/svg" data-bs-toggle="tooltip" data-bs-placement="top" title="Voir CV" aria-hidden="true" role="img" style="vertical-align: -0.125em;" width="1.3em" height="1.3em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 448 512"><path fill="#ec407a" d="M48 32C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48H48zm98.88 133.234c19.636 0 37.082 6.789 49.929 16.971c11.88 9.452 17.444 18.907 22.298 27.393l-33.923 16.949c-2.427-5.565-5.347-11.387-12.846-17.682c-8.248-6.552-16.478-8.484-23.524-8.484c-27.626 0-42.17 25.693-42.17 54.287c0 37.573 19.161 56.22 42.17 56.22c22.3 0 31.278-15.51 37.08-25.435L219.6 302.66c-6.315 9.926-12.374 19.635-25.95 29.069c-7.262 5.09-23.977 15.037-47.736 15.037C100.586 346.766 64 313.81 64 255.87c0-50.636 34.415-90.637 82.88-90.637zm75.483 5.328h45.565L303.31 292.24l35.125-121.678H384l-59.379 171.112H281.01l-58.647-171.111z"/></svg>
+                                    <!--<a v-if="profile.pdf" @click="test = profile.pdf" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <svg xmlns="http://www.w3.org/2000/svg" data-bs-toggle="tooltip" data-bs-placement="top" title="Voir CV" aria-hidden="true" role="img" style="vertical-align: -0.125em;" width="1.1em" height="1.5em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 448 512"><path fill="#ec407a" d="M48 32C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48H48zm98.88 133.234c19.636 0 37.082 6.789 49.929 16.971c11.88 9.452 17.444 18.907 22.298 27.393l-33.923 16.949c-2.427-5.565-5.347-11.387-12.846-17.682c-8.248-6.552-16.478-8.484-23.524-8.484c-27.626 0-42.17 25.693-42.17 54.287c0 37.573 19.161 56.22 42.17 56.22c22.3 0 31.278-15.51 37.08-25.435L219.6 302.66c-6.315 9.926-12.374 19.635-25.95 29.069c-7.262 5.09-23.977 15.037-47.736 15.037C100.586 346.766 64 313.81 64 255.87c0-50.636 34.415-90.637 82.88-90.637zm75.483 5.328h45.565L303.31 292.24l35.125-121.678H384l-59.379 171.112H281.01l-58.647-171.111z"/></svg>
                                     </a>
+                                    <a v-if="profile.pdf" @click="$refs.myPdfComponent" target="_blank">
+                                        <svg xmlns="http://www.w3.org/2000/svg" data-bs-toggle="tooltip" data-bs-placement="top" title="Voir CV" aria-hidden="true" role="img" style="vertical-align: -0.125em;" width="1.1em" height="1.5em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 448 512"><path fill="#ec407a" d="M48 32C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48H48zm98.88 133.234c19.636 0 37.082 6.789 49.929 16.971c11.88 9.452 17.444 18.907 22.298 27.393l-33.923 16.949c-2.427-5.565-5.347-11.387-12.846-17.682c-8.248-6.552-16.478-8.484-23.524-8.484c-27.626 0-42.17 25.693-42.17 54.287c0 37.573 19.161 56.22 42.17 56.22c22.3 0 31.278-15.51 37.08-25.435L219.6 302.66c-6.315 9.926-12.374 19.635-25.95 29.069c-7.262 5.09-23.977 15.037-47.736 15.037C100.586 346.766 64 313.81 64 255.87c0-50.636 34.415-90.637 82.88-90.637zm75.483 5.328h45.565L303.31 292.24l35.125-121.678H384l-59.379 171.112H281.01l-58.647-171.111z"/></svg>
+                                    </a>
+                                    <pdf v-if="profile.pdf" ref="myPdfComponent" :src="profile.pdf.path" target="_blank"></pdf>-->
+                                    <router-link v-if="profile.pdf" :to="{name: 'profile.showPdf', query: {id: profile.id, pdfID: profile.pdf.id, url: profile.pdf.path}}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="Voir PDF">
+                                        <svg xmlns="http://www.w3.org/2000/svg" data-bs-toggle="tooltip" data-bs-placement="top" title="Voir CV" aria-hidden="true" role="img" style="vertical-align: -0.125em;" width="1.1em" height="1.5em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 448 512"><path fill="#ec407a" d="M48 32C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48H48zm98.88 133.234c19.636 0 37.082 6.789 49.929 16.971c11.88 9.452 17.444 18.907 22.298 27.393l-33.923 16.949c-2.427-5.565-5.347-11.387-12.846-17.682c-8.248-6.552-16.478-8.484-23.524-8.484c-27.626 0-42.17 25.693-42.17 54.287c0 37.573 19.161 56.22 42.17 56.22c22.3 0 31.278-15.51 37.08-25.435L219.6 302.66c-6.315 9.926-12.374 19.635-25.95 29.069c-7.262 5.09-23.977 15.037-47.736 15.037C100.586 346.766 64 313.81 64 255.87c0-50.636 34.415-90.637 82.88-90.637zm75.483 5.328h45.565L303.31 292.24l35.125-121.678H384l-59.379 171.112H281.01l-58.647-171.111z"/></svg>
+                                    </router-link>
+                                    <!--<a v-if="profile.pdf" :href="profile.pdf.path + '#toolbar=0&navpanes=0&scrollbar=0'" target="_blank">
+                                        <svg xmlns="http://www.w3.org/2000/svg" data-bs-toggle="tooltip" data-bs-placement="top" title="Voir CV" aria-hidden="true" role="img" style="vertical-align: -0.125em;" width="1.1em" height="1.5em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 448 512"><path fill="#ec407a" d="M48 32C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48H48zm98.88 133.234c19.636 0 37.082 6.789 49.929 16.971c11.88 9.452 17.444 18.907 22.298 27.393l-33.923 16.949c-2.427-5.565-5.347-11.387-12.846-17.682c-8.248-6.552-16.478-8.484-23.524-8.484c-27.626 0-42.17 25.693-42.17 54.287c0 37.573 19.161 56.22 42.17 56.22c22.3 0 31.278-15.51 37.08-25.435L219.6 302.66c-6.315 9.926-12.374 19.635-25.95 29.069c-7.262 5.09-23.977 15.037-47.736 15.037C100.586 346.766 64 313.81 64 255.87c0-50.636 34.415-90.637 82.88-90.637zm75.483 5.328h45.565L303.31 292.24l35.125-121.678H384l-59.379 171.112H281.01l-58.647-171.111z"/></svg>
+                                    </a>-->
+                                    <!--<pdf v-if="profile.pdf" :href="profile.pdf.path"></pdf>
+                                    @ contextmenu . prevent <input type="checkbox" v-model="order.profiles_ids" :value="profile.id"> -->
                                 </td>
                             </tr>
                         </tbody>
@@ -187,11 +244,12 @@
 </template>
 <script>
     import axios from 'axios';
-    import { mapActions } from 'vuex';
+    import { mapGetters, mapActions } from 'vuex';
     import Nav from '.././Nav/Nav.vue';
+    import pdf from 'vue-pdf';
     var moment = require('moment');
 export default {
-    components: { Nav },
+    components: { Nav, pdf },
     data() {
         return {
             moment: moment,
@@ -216,10 +274,27 @@ export default {
                 title: '',
                 body: '',
                 item: 'now',
-                send_date: ''
+                send_date: '',
+                orderTitle: '',
+                password: '',
+                competance: [],
             },
-            all_select: false
+            all_select: false,
+            currentSort:'email',
+            currentSortDir:'asc',
+            oldestFirst: false,//order: { title: '', competance: [], profiles_ids: [] }
+            step: 1,
+            totalsteps: 3,
+            emailMessageError: '',
+            currentPage: 0,
+			pageCount: 0,
+            page: ''
         }
+    },
+    computed: {
+        ...mapGetters({
+            'is_admin': 'auth/getRole'
+        }),
     },
     watch: {
         keyword(after, before) {
@@ -232,10 +307,11 @@ export default {
                 return this.select_members.length = 0
             }
         },
-        select_members1(){
-            this.select_members = this.select_members1;
-            this.memberStore();
-        }
+        /*page(after, before){
+            var loadingTask = pdf.createLoadingTask(this.page);
+            loadingTask.promise.then(pdf => { this.pageCount = pdf.numPages;});
+        }*/
+        /*select_members1(){    this.select_members = this.select_members1;    this.memberStore();}*/
     },
     methods: {
         ...mapActions({
@@ -280,9 +356,15 @@ export default {
             data.append('body', this.email.body);
             data.append('item', this.email.item);
             data.append('send_date', this.email.send_date);
+            data.append('password', this.email.password);
+            if (this.email.orderTitle.length > 0) {
+                data.append('orderTitle', this.email.orderTitle);
+                data.append('competance', this.select_members);
+            }
             this.emailSendToProfiles(data)
                 .then((res) => {
                     this.deleteItems = [];
+                    this.email = [];//this.email.title = ''; this.email.body = ''; this.email.orderTitle = '';
                     this.all_select == true ? this.all_select = false : this.all_select = true;
                     this.flashMessage.success({ message: res.data.message, time: 5000 });
                 })
@@ -313,7 +395,85 @@ export default {
                 .catch((e) => {//console.log(e.response.data)
                     this.flashMessage.error({ message: 'CV non téléchargé !', time: 5000 })
                 })
+        },
+        sort(s) {//if s == current sort, reverse
+            if(s === this.currentSort) {
+                this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
+                this.sortedProfiles();
+            }
+            this.currentSort = s;
+            this.sortedProfiles();
+        },
+        sortedProfiles() {
+            return this.profiles.sort((a,b) => {
+                let modifier = 1;
+                if(this.currentSortDir === 'desc') modifier = -1;
+                if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+                if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                return 0;
+            });
+        },
+        toggleSort() {
+            this.oldestFirst = !this.oldestFirst;
+            this.newDates()
+        },
+        newDates() {
+            var order = this.oldestFirst ? 1 : -1;
+            // `this` points to the vm instance    
+            this.profiles.sort(function(a, b) {
+                a = new Date(a.date_debut_experience);
+                b = new Date(b.date_debut_experience);
+                var results = a > b ? -1 : a < b ? 1 : 0;
+                return results * order;
+            });
+        },
+        nextStep(){
+            if (this.step == 1) {
+                if(!this.email.title && !this.email.body){
+                    this.emailMessageError = 'Veuillez renseigner le champ Title et Contenu';
+                    let timer;
+                    clearTimeout(timer)
+                    timer = setTimeout(() => {
+                        this.emailMessageError = ''
+                    }, 3000)
+                    return false;
+                }
+            }
+            if (this.step == 2) {
+                if(!this.email.orderTitle){
+                    this.emailMessageError = 'Veuillez renseigner ce champ';
+                    let timer;
+                    clearTimeout(timer)
+                    timer = setTimeout(() => {
+                        this.emailMessageError = ''
+                    }, 3000)
+                    return false;
+                }
+            }
+            if (this.step == 3) {
+                if(!this.email.password){
+                    this.emailMessageError = 'Veuillez renseigner Ce champ.';
+                    let timer;
+                    clearTimeout(timer)
+                    timer = setTimeout(() => {
+                        this.emailMessageError = ''
+                    }, 3000)
+                    return false;
+                }
+            }
+            this.emailMessageError = '';
+            this.step++; 
+        },
+        prevStep(){ this.step--; },
+        numPage(path){
+            var loadingTask = pdf.createLoadingTask(path);
+            loadingTask.promise.then(pdf => { this.pageCount = pdf.numPages;});
         }
+        /*async SaveCommande(){
+            this.order.competance = this.select_members;
+            await axios.post('api/save-order', this.order).then((res) => {  this.order.profiles_ids = [], this.order.competance = [], this.flashMessage.success({ message: 'Commande enregistré avec succés', time: 5000 })})
+            .catch((err) => { console.log(err.response.data), this.flashMessage.error({ message: 'Commande non enregistré', time: 5000 }) });
+        }*/
     },
     mounted() {
         this.getAllSkills()

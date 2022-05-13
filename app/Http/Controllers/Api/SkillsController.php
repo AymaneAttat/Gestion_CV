@@ -11,6 +11,7 @@ use App\Imports\SkillsImport;
 use Illuminate\Http\Request;
 use App\Models\Profile;
 use App\Models\Skill;
+use App\Models\Order;
 
 class SkillsController extends Controller
 {
@@ -75,7 +76,8 @@ class SkillsController extends Controller
     public function getCountSkills(){
         $nbrSkills = Skill::all()->count();
         $nbrProfiles = Profile::all()->count();
-        return response()->json(['nbrSkills' => $nbrSkills, 'nbrProfiles' => $nbrProfiles]);
+        $nbrHistoriques = Order::all()->count();
+        return response()->json(['nbrSkills' => $nbrSkills, 'nbrProfiles' => $nbrProfiles, 'nbrHistoriques' => $nbrHistoriques]);
     }
 
     public function update(Request $request, Skill $skill){

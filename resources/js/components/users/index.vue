@@ -4,11 +4,12 @@
         <br><br><br>
         <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
             <div class="container">
-                <div class="section text-center">
+                <router-link v-if="isEmpty.length !== 0" class="btn bg-gradient-primary rounded-pill" :to="{name: 'auth.register'}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Ajouter un nouveau utilisateur"><b-icon icon="person-plus-fill" scale="1"></b-icon> Utilisateur</router-link>
+                <div class="section text-center"><!--  style="color: #ec407a;" -->
                     <div v-if="isEmpty.length === 0">
                         <div class="section text-center">
                             <div class="position-relative">
-                                <img class="position-relative z-index-2" width="40%" height="30%" src="/img/77703-no-data-found.gif" alt="image">
+                                <img class="position-relative z-index-2" width="49%" height="37%" src="/img/77703-no-data-found.gif" alt="image">
                             </div>
                         </div>
                     </div>
@@ -25,8 +26,8 @@
                             <tbody>
                                 <tr v-for="user in users.data"><!--v-for="profile in profiles.data"-->
                                     <th scope="row"><small>{{user.email}}</small></th>
-                                    <td><small>{{user.name}}</small></td>
-                                    <td><small>{{user.role.name}}</small></td>
+                                    <th scope="row"><small>{{user.name}}</small></td>
+                                    <th scope="row"><span class="badge bg-gradient-primary"><small>{{user.role.name}}</small></span></td>
                                     <th scope="row"><small>vide</small></th>
                                 </tr>
                             </tbody>

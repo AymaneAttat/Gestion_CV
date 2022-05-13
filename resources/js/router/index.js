@@ -15,10 +15,14 @@ import ProfilesIndex from '../components/Profile/index.vue'
 import ProfileEdit from '../components/Profile/edit.vue'
 import ProfileTest from '../components/Profile/show.vue'
 import Permissions from '../components/authorization/Permissions.vue'
-import Roles from '../components/authorization/Roles.vue'
+//import Roles from '../components/authorization/Roles.vue'
 //import Users from '../components/authorization/Users.vue'
 import NotAuthorized from '../components/authorization/NotAuthorized.vue'
 import UsersIndex from '../components/users/index.vue'
+import ForgotPassword from '../components/ForgotPass/ForgotPassword.vue'
+import ResetPasswordForm from '../components/ForgotPass/ResetPasswordForm.vue'
+import Historique from '../components/Historique/index.vue'
+import showPdf from '../components/Profile/showPdf.vue'
 
 const routes = [
     {
@@ -34,7 +38,15 @@ const routes = [
     {
         path: '/register',
         name: 'auth.register',
-        component: Register
+        component: Register,
+        beforeEnter: (to, from, next) => {
+            if(!store.getters['auth/authenticated']){
+              return next({ name: 'auth.login'})
+            }else if(!store.getters['auth/getRole']){
+                return next({ name: 'not-authorized'})
+            }
+            next()
+        }
     },
     
     {
@@ -76,7 +88,7 @@ const routes = [
         }
     },
     {
-        path: '/edit-profile',
+        path: '/edit-profile-:id',
         name: 'profile.edit',
         component: ProfileEdit,
         props: true,
@@ -110,16 +122,6 @@ const routes = [
           authRequired: 'true',
         },
     },
-
-    {
-        path: '/roles',
-        name: 'roles',
-        props: true,
-        component: Roles,
-        meta: {
-          authRequired: 'true',
-        },
-    },
     {
         path: '/users-index',
         name: 'users.index',
@@ -145,6 +147,42 @@ const routes = [
             }
             next()
         }*/
+    },
+    { 
+        path: '/reset-password', 
+        name: 'reset-password', 
+        component: ForgotPassword, 
+    },
+    { 
+        path: '/reset-password-:token', 
+        name: 'reset-password-form', 
+        component: ResetPasswordForm,
+    },
+    {
+        path: '/historique',
+        name: 'historique.index',
+        component: Historique,
+        //props: true,
+        beforeEnter: (to, from, next) => {
+            if(!store.getters['auth/authenticated']){
+              return next({ name: 'auth.login'})
+            }
+            next()
+        }
+    },
+    {
+        path: '/showPdf',
+        name: 'profile.showPdf',
+        component: showPdf,
+        //props: true,
+        beforeEnter: (to, from, next) => {
+            if(!store.getters['auth/authenticated']){
+              return next({ name: 'auth.login'})
+            }/* else if(!store.getters['auth/getRole']){
+                return next({ name: 'not-authorized'})
+            }*/
+            next()
+        }
     },
 ];
 /**/

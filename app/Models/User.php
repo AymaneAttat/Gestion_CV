@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 //use Spatie\Permission\Traits\HasRoles;, HasRoles
 use App\Models\Profile;
+use App\Models\Order;
 use App\Models\Role;
 use App\Models\Pdf;
 //use Laravel\Sanctum\HasApiTokens;HasApiTokens, 
@@ -18,7 +19,7 @@ class User extends Authenticatable implements JWTSubject
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are mass assignable.'password_gmail',
      *
      * @var array<int, string>
      */
@@ -59,6 +60,10 @@ class User extends Authenticatable implements JWTSubject
     public function pdf(){
         return $this->morphOne(Pdf::class, 'pdfable');
     }
+
+    public function orders(){
+        return $this->hasMany(Order::class);
+    }
     
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
@@ -76,5 +81,11 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getJWTCustomClaims() {
         return [];
-    }  
+    }
+    /**
+     * Override the mail body for reset password notification mail.
+     */
+    public function sendPasswordResetNotification($token){
+        $this->notify(new \App\Notifications\MailResetPasswordNotification($token));
+    }
 }

@@ -28,29 +28,32 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
+                                    <div v-if="error" class="alert alert-primary text-white font-weight-bold" role="alert">
+                                        {{error}}
+                                    </div>
                                     <form @submit.prevent="signup()" role="form" class="text-start">
-                                        <div class="input-group input-group-outline my-3">
-                                            <label class="form-label">Nom</label>
-                                            <input v-model="user.name" type="text" class="form-control">
+                                        <div class="input-group input-group-static my-3">
+                                            <label>Nom</label>
+                                            <input v-model="user.name" class="form-control" placeholder="Nom Complete" type="text" required>
                                         </div>
-                                        <div class="input-group input-group-outline my-3">
-                                            <label class="form-label">Email</label>
-                                            <input v-model="user.email" type="email" class="form-control">
+                                        <div class="input-group input-group-static my-3">
+                                            <label>Email</label>
+                                            <input v-model="user.email" class="form-control" placeholder="test@gmail.com" type="email" required>
                                         </div>
-                                        <div class="input-group input-group-outline mb-3">
-                                            <label class="form-label">Mot de passe</label>
-                                            <input v-model="user.password" type="password" class="form-control">
+                                        <div class="input-group input-group-static my-3">
+                                            <label>Mot de passe</label>
+                                            <input v-model="user.password" class="form-control" type="password" required>
                                         </div>
-                                        <div class="input-group input-group-outline mb-3">
-                                            <label class="form-label">Confirmer Mot de passe</label>
-                                            <input v-model="user.password_confirmation" type="password" class="form-control">
+                                        <div class="input-group input-group-static my-3">
+                                            <label>Confirmer Mot de passe</label>
+                                            <input v-model="user.password_confirmation" class="form-control" type="password" required>
                                         </div>
                                         <div class="text-center">
                                             <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">S'inscrire</button>
                                         </div>
                                         <p class="mt-4 text-sm text-center">
-                                            Vous avez déja un compte?
-                                            <router-link :to="{name: 'auth.login'}" class="text-primary text-gradient font-weight-bold">Sign in</router-link>
+                                            <!-- Vous avez déja un compte? -->
+                                            <router-link :to="{name: 'dashboard'}" class="text-primary text-gradient font-weight-bold">Retourner à l'accueil</router-link>
                                         </p>
                                     </form>
                                 </div>
@@ -72,9 +75,9 @@ export default {
                 email: '',
                 password: '',
                 password_confirmation: '',
-                role_id: 3
+                role_id: 2
             },
-            error: []
+            error: ''
         }
     },
     methods: {

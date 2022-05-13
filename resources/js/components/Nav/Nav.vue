@@ -11,13 +11,19 @@
           <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav me-auto">
                 <li v-if="authenticated" class="nav-item">
-                  <router-link class="nav-link" :to="{name: 'dashboard'}">Dashboard</router-link>
+                  <router-link v-if="is_admin == 1" class="nav-link" active-class="active" :to="{name: 'dashboard'}">Dashboard</router-link>
                 </li>
                 <li v-if="authenticated" class="nav-item">
-                  <router-link :to="{name: 'profiles.index'}" class="nav-link">Profiles</router-link>
+                  <router-link v-if="is_admin == 1" active-class="active" :to="{name: 'profiles.index'}" class="nav-link">Profiles</router-link>
                 </li>
                 <li v-if="authenticated" class="nav-item">
-                  <router-link :to="{name: 'users.index'}" class="nav-link">users</router-link>
+                  <router-link active-class="active" :to="{name: 'historique.index'}" class="nav-link">Historiques</router-link>
+                </li>
+                <li v-if="authenticated" class="nav-item">
+                  <router-link :to="{name: 'skills.index'}" active-class="active" class="nav-link">Compétences</router-link>
+                </li>
+                <li v-if="authenticated" class="nav-item">
+                  <router-link v-if="is_admin == 1" active-class="active" :to="{name: 'users.index'}" class="nav-link">Utilisateurs</router-link>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
@@ -25,7 +31,7 @@
                   <a class="nav-link" href="/login">Connecter</a>
                 </li>
                 <li class="nav-item-active" v-if="authenticated">
-                  <a class="nav-link" href="#">{{user.name}}</a>
+                  <a class="nav-link active" href="#">{{user.name}}</a>
                 </li>
                 <li v-if="authenticated" class="nav-item-active">
                     <a @click="logOut" class="nav-link" href="#">
@@ -46,7 +52,8 @@ export default {
     computed: {
         ...mapGetters({
             'authenticated': 'auth/authenticated',
-            'user': 'auth/getUser'
+            'user': 'auth/getUser',
+            'is_admin': 'auth/getRole'
         })
     },
     methods: {

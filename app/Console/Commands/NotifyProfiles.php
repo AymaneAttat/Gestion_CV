@@ -57,6 +57,7 @@ class NotifyProfiles extends Command
                     $profiles = Profile::whereIn('id', $ids)->get();
                     foreach($profiles as $profile) {
                         dispatch(new SendMailJob($profile->email, new NewEmail($profile, $email)));
+                        $email->profiles()->attach($profile);
                     }
                     $email->delivered = 'YES';
                     $email->save();

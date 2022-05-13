@@ -35,6 +35,8 @@ class NewEmail extends Mailable
         return $this->markdown('emails.newEmail')
         ->subject($this->email->title)
         //->from($this->email->send_by, 'Bitdyne Company')
+        ->from('contact@bitdyne.com', 'Bitdyne')
+        //->replyTo('aymane.attat@uit.ac.ma', 'Bitdyne Company')
         ->with([
             'profile'=> $this->profile,
             'email' => $this->email,
