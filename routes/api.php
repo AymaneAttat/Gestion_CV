@@ -72,15 +72,3 @@ Route::group(['middleware' => 'api'], function($router){
     Route::get('/SearchHistoriques', [HistoricalsController::class, 'getSearchHistoriques'])->name('search.Historique');
 
 });
-/*
-Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('/permissions', [RoleManager::class, 'permissionsIndex'])->name('permissions.index')->middleware('permission:View All Permissions');
-
-    Route::get('/roles', [RoleManager::class, 'rolesIndex'])->name('roles.index')->middleware('permission:View All Roles');
-
-    Route::post('/roles/{role}/assign/{user}', [RoleManager::class, 'rolesAddUser'])->name('roles.addUser')->middleware('permission:Assign Role');
-
-    Route::post('/roles/{role}/unassign/{user}', [RoleManager::class, 'rolesRemoveUser'])->name('roles.removeUser')->middleware('permission:Unassign Role');
-
-    Route::get('/users', [UsersController::class, 'index'])->name('users.index')->middleware('role:super-admin');
-});*/
