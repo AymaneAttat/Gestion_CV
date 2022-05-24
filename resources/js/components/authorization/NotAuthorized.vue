@@ -2,7 +2,7 @@
     <div>
         <Nav />
         <br>
-        <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n1" style="width: auto;">
+        <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n1 animate__animated animate__backInLeft" style="width: auto;">
             <div class="container">
                     <div class="row">
                         <div class="col-md-6 m-auto">

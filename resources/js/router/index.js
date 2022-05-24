@@ -1,22 +1,14 @@
 //import { createRouter, createWebHistory } from 'vue-router'
 import VueRouter from 'vue-router'
-//import Login from '../components/auth/Login.vue';
 import Login from '../components/auth/Signin.vue';
-//import Register from '../components/auth/Register.vue';
 import Register from '../components/auth/Signup.vue';
-//import Dashboard from '../components/auth/Dashboard.vue';
 import Dashboard from '../components/auth/Dashb.vue';
 import main from '../components/skills/main.vue';
 import store from '../store/index.js';
 import SkillIndex from '../components/skills/index.vue'
-//import SkillIndex from '../components/skills/tmp1.vue'ProfilesIndex
 import ProfilesIndex from '../components/Profile/index.vue'
-//import ProfileShow from '../components/Profile/show.vue'
 import ProfileEdit from '../components/Profile/edit.vue'
-import ProfileTest from '../components/Profile/show.vue'
-import Permissions from '../components/authorization/Permissions.vue'
-//import Roles from '../components/authorization/Roles.vue'
-//import Users from '../components/authorization/Users.vue'
+//import ProfileTest from '../components/Profile/show.vue'
 import NotAuthorized from '../components/authorization/NotAuthorized.vue'
 import UsersIndex from '../components/users/index.vue'
 import ForgotPassword from '../components/ForgotPass/ForgotPassword.vue'
@@ -42,13 +34,12 @@ const routes = [
         beforeEnter: (to, from, next) => {
             if(!store.getters['auth/authenticated']){
               return next({ name: 'auth.login'})
-            }else if(!store.getters['auth/getRole']){
+            }else if(store.getters['auth/getRole'] != 'Administrator'){
                 return next({ name: 'not-authorized'})
             }
             next()
-        }
+        }/**/
     },
-    
     {
         path: '/dashboard',
         name: 'dashboard',
@@ -56,7 +47,7 @@ const routes = [
         beforeEnter: (to, from, next) => {
             if(!store.getters['auth/authenticated']){
               return next({ name: 'auth.login'})
-            }else if(!store.getters['auth/getRole']){
+            }else if(store.getters['auth/getRole'] != 'Administrator'){
                 return next({ name: 'skills.index'})
             }
             next()
@@ -81,7 +72,7 @@ const routes = [
             if(!store.getters['auth/authenticated']){
               return next({ name: 'auth.login'})
             }
-            else if(!store.getters['auth/getRole']){
+            else if(store.getters['auth/getRole'] != 'Administrator'){
                 return next({ name: 'not-authorized'})
             }
             next()
@@ -95,32 +86,11 @@ const routes = [
         beforeEnter: (to, from, next) => {
             if(!store.getters['auth/authenticated']){
               return next({ name: 'auth.login'})
-            }else if(!store.getters['auth/getRole']){
+            }else if(store.getters['auth/getRole'] != 'Administrator'){
                 return next({ name: 'not-authorized'})
             }
             next()
         }
-    },
-    {
-        path: '/test',
-        name: 'profiles.show',
-        component: ProfileTest,
-        //props: true,
-        beforeEnter: (to, from, next) => {
-            if(!store.getters['auth/authenticated']){
-              return next({ name: 'auth.login'})
-            }
-            next()
-        }
-    },
-    {
-        path: '/permissions',
-        name: 'permissions',
-        props: true,
-        component: Permissions,
-        meta: {
-          authRequired: 'true',
-        },
     },
     {
         path: '/users-index',
@@ -130,7 +100,7 @@ const routes = [
         beforeEnter: (to, from, next) => {
             if(!store.getters['auth/authenticated']){
               return next({ name: 'auth.login'})
-            }else if(!store.getters['auth/getRole']){
+            }else if(store.getters['auth/getRole'] != 'Administrator'){
                 return next({ name: 'not-authorized'})
             }
             next()
@@ -185,11 +155,7 @@ const routes = [
         }
     },
 ];
-/**/
-/*export default createRouter({
-    history: createWebHistory(),
-    routes
-})*/
+
 const router = new VueRouter({
     history: true,
     mode: 'history',

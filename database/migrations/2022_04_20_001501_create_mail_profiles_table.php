@@ -19,9 +19,11 @@ class CreateMailProfilesTable extends Migration
             $table->text('body');
             $table->longText('profile_ids');//->unique()profile_ids
             $table->enum('delivered', ['YES', 'NO'])->default('NO');
-            //$table->string('send_by');
-            $table->unsignedBigInteger('order_id')->nullable();
-            $table->foreign('order_id')->nullable()->references('id')->on('orders')->onDelete('cascade');
+            //$table->boolean('send')->default(false);
+            $table->unsignedBigInteger('historical_id')->nullable();
+            $table->foreign('historical_id')->nullable()->references('id')->on('historicals')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->string('date_string')->nullable();
             $table->timestamp('send_date');
             $table->timestamps();

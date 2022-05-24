@@ -13,16 +13,18 @@ class NewEmail extends Mailable
 
     protected $email;
     protected $profile;
+    protected $userEmail;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($profile, $email)
+    public function __construct($profile, $email, $userEmail)
     {
         $this->profile = $profile;
         $this->email = $email;
+        $this->userEmail = $userEmail;
     }
 
     /**
@@ -35,7 +37,9 @@ class NewEmail extends Mailable
         return $this->markdown('emails.newEmail')
         ->subject($this->email->title)
         //->from($this->email->send_by, 'Bitdyne Company')
-        ->from('contact@bitdyne.com', 'Bitdyne')
+        //->from('contact@bitdyne.com', 'Bitdyne')
+        //->from(auth()->user()->email, 'Bitdyne')
+        ->from($this->userEmail, 'Bitdyne')
         //->replyTo('aymane.attat@uit.ac.ma', 'Bitdyne Company')
         ->with([
             'profile'=> $this->profile,

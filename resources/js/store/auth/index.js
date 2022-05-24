@@ -5,6 +5,7 @@ export default {
     state: {
         token: null,
         role: null,
+        permissions: null,
         user: null
     },
     mutations: {
@@ -13,6 +14,9 @@ export default {
         },
         setRole(state, role){
             state.role = role
+        },
+        setPermissions(state, permissions){
+            state.permissions = permissions
         },
         setUser(state, data){
             state.user = data
@@ -23,7 +27,11 @@ export default {
             return state.token && state.user;
         },
         getUser(state){
-            return state.user
+            return state.user;
+        },
+        getPermissions(state){
+            console.log(state.permissions);
+            return state.permissions;
         },
         getRole(state){
             /*if(state.role == 3 || state.role == 2){
@@ -31,7 +39,8 @@ export default {
             }else if(state.role == 1){
                 return true;
             }*/
-            return state.role == 1 ? state.role : false;
+            //return state.role == 1 ? state.role : false;
+            return state.role;
         }
     },
     actions: {
@@ -66,9 +75,10 @@ export default {
                 }
                 const response = await axios.get('api/auth/user-profile')
                 
-                commit('setUser', response.data);
+                commit('setUser', response.data.user);
                 console.log(response.data);
-                commit('setRole', response.data.role_id);
+                commit('setRole', response.data.roles);
+                commit('setPermissions', response.data.permissions);
                 console.log('Success')
             } catch (error) {
                 commit('setUser', null)

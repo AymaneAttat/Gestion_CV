@@ -7,7 +7,10 @@ use App\Http\Controllers\Api\SkillsController;
 use App\Http\Controllers\Api\ProfilesController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\MailProfileController;
-use App\Http\Controllers\Api\OrdersController;
+use App\Http\Controllers\RoleManager;
+use App\Http\Controllers\Api\HistoricalsController;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,9 +63,14 @@ Route::group(['middleware' => 'api'], function($router){
 
     Route::get('/users-index', [UsersController::class, 'index'])->name('users.index');
 
-    Route::post('/save-order',[OrdersController::class,'store'])->name('store.order');
-    Route::get('/historique-index', [OrdersController::class, 'index'])->name('historique.index');
-    Route::get('/SearchHistoriques', [OrdersController::class, 'getSearchHistoriques'])->name('search.Historique');
+    //Route::get('/permission/{permissionName}', [PermissionController::class, 'check']);
+    Route::get('/all-permissions', [RoleManager::class, 'index'])->name('permissions.index');
+    Route::post('/save-Permissions',[RoleManager::class,'store'])->name('permissions.save');
+
+    Route::post('/save-order',[HistoricalsController::class,'store'])->name('store.order');
+    Route::get('/historique-index', [HistoricalsController::class, 'index'])->name('historique.index');
+    Route::get('/SearchHistoriques', [HistoricalsController::class, 'getSearchHistoriques'])->name('search.Historique');
+
 });
 /*
 Route::group(['middleware' => 'auth:api'], function () {

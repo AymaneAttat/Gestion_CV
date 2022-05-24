@@ -7,12 +7,14 @@ use Illuminate\Http\Request;
 
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use Hash;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use App\Models\User;
 use Validator;
+use Hash;
 
 class AuthController extends Controller
 {
@@ -22,12 +24,12 @@ class AuthController extends Controller
     }
 
     /**
-     * Create a new AuthController instance.    , 'register'
+     * Create a new AuthController instance.  
      *
      * @return void
      */
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['login', 'sendPasswordResetLink', 'callResetPassword']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register', 'sendPasswordResetLink', 'callResetPassword', 'CreateRolePermission']]);
     }
 
     /**
@@ -72,8 +74,14 @@ class AuthController extends Controller
                     $validator->validated(),
                     ['password' => bcrypt($request->password)],
                     //['password_gmail' => Crypt::encryptString($request->password)],
-                    ['role_id' => $request->role_id]
+                    //['role_id' => $request->role_id]
                 ));
+        $role_id = $request['role_id']; //Retrieving the roles field
+        //Checking if a role was selected
+        if (isset($role_id)) {
+            $role_r = Role::where('id', '=', $role_id)->firstOrFail();            
+            $user->assignRole($role_r); //Assigning role to user
+        }
 
         return response()->json([
             'message' => 'User successfully registered',
@@ -107,7 +115,7 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function userProfile() {
-        return response()->json(auth()->user());
+        return response()->json([ 'user' => auth()->user(), 'roles' => auth()->user()->getRoleNames(), 'permissions' => auth()->user()->getPermissionNames()]);
     }
 
     /**
@@ -191,4 +199,19 @@ class AuthController extends Controller
     protected function sendResetFailedResponse(Request $request, $response){
         return response()->json(['message' => 'Échec, Token non valide.']);
     }
+
+    /*public function CreateRolePermission(){
+        //dd(auth('middleware')->user());
+        //$role_r = Role::where('name', '=', 'Administrator')->firstOrFail();
+        //$user = $this->userProfile();
+        try {
+            $user = auth()->user();
+            $user->assignRole('Administrator');
+            auth()->user()->givePermissionTo(['ajouter_profiles', 'voir_profiles', 'ajouter_CV', 'ajouter_competences', 'ajouter_competence', 'telecharger_cv', 'ajouter_utilisateur']);
+            return response()->json(["message" => "Vous Avez access d'administrateur."]);
+        } catch (\Throwable $th) {
+            return response()->json([$th]);
+        }
+
+    }*/
 }

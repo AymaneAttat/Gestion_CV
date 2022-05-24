@@ -3,11 +3,11 @@
         <Nav />
         <br><br><br>
         <!-- main -->
-        <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6" style="width: auto;">
+        <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6 animate__animated animate__backInLeft" style="width: auto;">
             <div class="section text-center">
                 <div class="container">
                     <pdf v-for="i in pageCount" :key="i" :src="url" :page="i" style="width: 70%; margin-left: auto; margin-right: auto;" oncontextmenu="return false"></pdf><br>
-                    <button v-if="is_admin == 1" type="button" class="btn bg-gradient-primary mb-0 btn-icon rounded-pill" data-bs-dismiss="modal"  @click="DownloadCV(pdfID)">
+                    <button v-if="is_admin == 'Administrator'" type="button" class="btn bg-gradient-primary mb-0 btn-icon rounded-pill" data-bs-dismiss="modal"  @click="DownloadCV(pdfID)">
                         <div class="d-flex align-items-center">
                             <b-icon icon="cloud-download" animation="fade" aria-hidden="true"></b-icon> 
                             Télecharger
@@ -22,10 +22,6 @@
     import Nav from '.././Nav/Nav.vue';
     import pdf from 'vue-pdf';
     import { mapGetters, mapActions } from 'vuex';
-    /*function numPage(path){ onload="numPage(url)"
-            var loadingTask = pdf.createLoadingTask(path);
-            loadingTask.promise.then(pdf => { this.pageCount = pdf.numPages;});
-        }*/
 export default {
     components: { Nav, pdf },
     //props: ['id', 'url'],

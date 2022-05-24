@@ -18,7 +18,8 @@
     <!-- Material Kit CSS -->
     <link href="assets/css/material-kit.css?v=3.0.0" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="favico.jpg">
-
+    <!-- Template Main CSS File 
+    <link href="assets/css/style.css" rel="stylesheet">-->
     
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
@@ -27,9 +28,23 @@
     <div id="app">
         <App></App>
     </div>
+    <!--<script type="text/javascript">
+        @ auth
+            window.Permissions = { !! json_encode(Auth::user()->getAllPermissionsAttribute(), true) !!};
+        @ else
+            window.Permissions = [];
+        @ endauth
+    </script>
 
+    <script type="text/javascript">
+        window.Laravel = {
+            csrfToken: "{ { csrf_token() }}",
+            jsPermissions: { !! auth()->check()?auth()->user()->jsPermissions():null !!}
+        }
+    </script>-->
     <script src="{{ asset('js/app.js')}}" defer></script>
-
+    <!-- Template Main JS File
+    <script src="{ { asset('assets/js/main.js')}}"></script> -->
     <!--   Core JS Files   -->
     <script src="{{ asset('assets/js/core/popper.min.js')}}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/core/bootstrap.min.js')}}" type="text/javascript"></script>

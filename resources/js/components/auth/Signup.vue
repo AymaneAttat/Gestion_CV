@@ -83,9 +83,9 @@ export default {
     methods: {
         async signup(){
             console.log(this.user);
-            await axios.post('api/auth/register', this.user).then(() => this.$router.replace({name: 'auth.login'})).catch(err => 
+            await axios.post('api/auth/register', this.user).then(() => {this.$router.replace({name: 'dashboard'}), this.flashMessage.success({ message: 'Compte créer avec succés', time: 5000 })}).catch(err => 
                 this.error = err.response.data,
-                console.log('check error: ', this.error),//console.log(err)
+                console.log('check error: ', this.error),//console.log(err) auth.login
             );
 
         }

@@ -38,10 +38,10 @@
                                                 <router-link :to="{name: 'reset-password'}" class="text-primary text-gradient font-weight-bold">Mot de pass oublier?</router-link>
                                             </p>
                                         </div>
-                                        <p class="mt-4 text-sm text-center">
+                                        <!-- <p class="mt-4 text-sm text-center">
                                             Vous n'avez pas un compte?
                                             <router-link :to="{name: 'auth.register'}" class="text-primary text-gradient font-weight-bold">Inscrivez-vous</router-link>
-                                        </p>
+                                        </p> -->
                                     </form>
                                 </div>
                             </div>

@@ -5,7 +5,7 @@
          main -->
         
         <!-- end main mt-n0-->
-        <div class="card card-body shadow-xl mx-3 mx-md-4 my-md-9">
+        <div class="card card-body shadow-xl mx-3 mx-md-4 my-md-9 animate__animated animate__backInLeft">
             <div class="container py-5">
                 <div class="card d-flex blur justify-content-center shadow-lg my-md-0 my-md-6 mt-8 mb-5">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
@@ -56,11 +56,10 @@
 </template>
 <script>
 import Nav from '.././Nav/Nav.vue'
-import Carose from '.././Nav/carose.vue'
 import { mapGetters } from 'vuex'
 import axios from 'axios';
 export default {
-    components: { Nav, Carose },
+    components: { Nav },
     data() {
         return {
             nbrSkills: '',

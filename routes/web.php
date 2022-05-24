@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Api\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +20,12 @@ use Illuminate\Support\Facades\Route;
 /*Route::get('/', function () {
     return view('welcome');
 });*/
+/*>middleware(['auth'
+Route::get('/create_role_permission',function(){
+    dd(Auth::user());
+    $role_r = Role::where('name', '=', 'Administrator')->firstOrFail();
+    Auth()->user()->assignRole($role_r);
+    Auth()->user()->givePermissionTo(['ajouter_profiles', 'voir_profiles', 'ajouter_CV', 'ajouter_competences', 'ajouter_competence', 'telecharger_cv', 'ajouter_utilisateur']);
+});*/
+//Route::get('/create_role_permission', [AuthController::class, 'CreateRolePermission']);
 Route::view('/{any}', 'index')->where('any', '.*');

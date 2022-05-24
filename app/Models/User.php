@@ -6,17 +6,22 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-//use Spatie\Permission\Traits\HasRoles;, HasRoles
+use Spatie\Permission\Traits\HasRoles;
+//use App\Http\Traits\ExposePermissions;, ExposePermissions
+use Illuminate\Support\Facades\Auth;
+use App\Models\MailProfile;
 use App\Models\Profile;
-use App\Models\Order;
-use App\Models\Role;
+use App\Models\Historical;
+//use App\Models\Role;
 use App\Models\Pdf;
 //use Laravel\Sanctum\HasApiTokens;HasApiTokens, 
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.'password_gmail',
@@ -53,16 +58,16 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Profile::class);
     }
 
-    public function role(){
+    /*public function role(){
         return $this->belongsTo(Role::class);
-    }
+    }*/
 
     public function pdf(){
         return $this->morphOne(Pdf::class, 'pdfable');
     }
 
-    public function orders(){
-        return $this->hasMany(Order::class);
+    public function Historicals(){
+        return $this->hasMany(Historical::class);
     }
     
     /**
@@ -87,5 +92,9 @@ class User extends Authenticatable implements JWTSubject
      */
     public function sendPasswordResetNotification($token){
         $this->notify(new \App\Notifications\MailResetPasswordNotification($token));
+    }
+
+    public function mailProfiles(){
+        return $this->hasMany(MailProfile::class);
     }
 }

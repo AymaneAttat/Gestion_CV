@@ -167,7 +167,7 @@ return [
          */
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        /*Spatie\Permission\PermissionServiceProvider::class,*/
+        Spatie\Permission\PermissionServiceProvider::class,/**/
 
         /*
          * Application Service Providers...
@@ -177,7 +177,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\TelescopeServiceProvider::class,
+        //App\Providers\TelescopeServiceProvider::class,
+        App\Providers\GoogleDriveServiceProvider::class,
 
     ],
 

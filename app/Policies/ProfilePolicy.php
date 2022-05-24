@@ -4,6 +4,8 @@ namespace App\Policies;
 
 use App\Models\Profile;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProfilePolicy
@@ -18,8 +20,8 @@ class ProfilePolicy
      */
     public function viewAny(User $user)
     {
-        return in_array($user->role_id, [1, 3]);
-        //return $user->role_id == 3;
+        //return in_array($user->role_id, [1, 3]);
+        return $user->hasRole('Administrator');
     }
 
     /**
@@ -31,7 +33,8 @@ class ProfilePolicy
      */
     public function view(User $user)
     {//, Profile $profile
-        return in_array($user->role_id, [1, 3]);
+        //return in_array($user->role_id, [1, 3]);
+        return $user->hasRole('Administrator');
     }
 
     /**
@@ -42,7 +45,8 @@ class ProfilePolicy
      */
     public function create(User $user)
     {
-        return in_array($user->role_id, [1, 2]);
+        //return in_array($user->role_id, [1, 2]);
+        return $user->hasRole('Administrator');
     }
 
     /**
@@ -54,7 +58,8 @@ class ProfilePolicy
      */
     public function update(User $user)
     {
-        return in_array($user->role_id, [1, 3]);
+        //return in_array($user->role_id, [1, 3]);
+        return $user->hasRole('Administrator');
     }
 
     /**
@@ -66,7 +71,8 @@ class ProfilePolicy
      */
     public function delete(User $user)//, Profile $profile
     {
-        return in_array($user->role_id, [1, 3]);
+        //return in_array($user->role_id, [1, 3]);
+        return $user->hasRole('Administrator');
     }
 
     /**

@@ -56,10 +56,11 @@ class NotifyProfiles extends Command
                     $ids = explode(",", $email->profile_ids);
                     $profiles = Profile::whereIn('id', $ids)->get();
                     foreach($profiles as $profile) {
-                        dispatch(new SendMailJob($profile->email, new NewEmail($profile, $email)));
+                        dispatch(new SendMailJob($profile->email, new NewEmail($profile, $email, $email->user->email)));
                         $email->profiles()->attach($profile);
                     }
                     $email->delivered = 'YES';
+                    //$email->send = true;
                     $email->save();
                     return "Email send successfuly";
                 }

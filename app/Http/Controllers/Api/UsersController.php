@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -15,11 +17,8 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $user = User::with(['role'])->get();
-        return response()->json([
-            'status' => 'success',
-            'data' => $user
-        ]);
+        $user = User::with('roles', 'permissions')->get();
+        return response()->json($user, 200);
         /*Auth()->user()->assignRole("Super Admin");
         return response()->json([
             'status' => 'success'

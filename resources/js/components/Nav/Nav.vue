@@ -11,10 +11,10 @@
           <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav me-auto">
                 <li v-if="authenticated" class="nav-item">
-                  <router-link v-if="is_admin == 1" class="nav-link" active-class="active" :to="{name: 'dashboard'}">Dashboard</router-link>
+                  <router-link v-if="is_admin == 'Administrator'" class="nav-link" active-class="active" :to="{name: 'dashboard'}">Dashboard</router-link>
                 </li>
                 <li v-if="authenticated" class="nav-item">
-                  <router-link v-if="is_admin == 1" active-class="active" :to="{name: 'profiles.index'}" class="nav-link">Profiles</router-link>
+                  <router-link v-if="is_admin == 'Administrator'" active-class="active" :to="{name: 'profiles.index'}" class="nav-link">Profiles</router-link>
                 </li>
                 <li v-if="authenticated" class="nav-item">
                   <router-link active-class="active" :to="{name: 'historique.index'}" class="nav-link">Historiques</router-link>
@@ -23,8 +23,8 @@
                   <router-link :to="{name: 'skills.index'}" active-class="active" class="nav-link">Compétences</router-link>
                 </li>
                 <li v-if="authenticated" class="nav-item">
-                  <router-link v-if="is_admin == 1" active-class="active" :to="{name: 'users.index'}" class="nav-link">Utilisateurs</router-link>
-                </li>
+                  <router-link v-if="is_admin == 'Administrator'" active-class="active" :to="{name: 'users.index'}" class="nav-link">Utilisateurs</router-link>
+                </li><!-- v-can="'ajouter_utilisateur'" v-if="is_admin == 1" v-if="$can('ajouter_profiles')" v-can="'ajouter_utilisateur'" v-if="Laravel.user.can['Administrator']" v-can="'ajouter_utilisateur'"-->
             </ul>
             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                 <li v-if="!authenticated" class="nav-item-active">
@@ -62,7 +62,7 @@ export default {
         }),
         logOut(){
             this.signOut().then(() => this.$router.replace({ name: 'main'}))
-        }
+        },
     },
 }
 </script>
