@@ -37,7 +37,7 @@
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form @submit.prevent='uploadCVFileS()' enctype="multipart/form-data">
+                    <form @submit.prevent='uploadCVFiles()' enctype="multipart/form-data">
                         <div class="modal-body">
                             <input type="file" id="upload-file" multiple @change="fieldChange" required/> <!--submitFiles() id="files" ref="files" v-on:change="handleFilesUpload()"-->
                         </div>

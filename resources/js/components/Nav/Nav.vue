@@ -3,7 +3,7 @@
 
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-          <a class="navbar-brand" href="/"><img src="logo.svg" alt="Bitdyn" width="110" height="30"></a>
+          <router-link class="navbar-brand" :to="{name: 'main'}"><img src="logo.svg" alt="Bitdyn" width="110" height="30"></router-link>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>

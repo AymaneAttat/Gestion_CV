@@ -49,7 +49,7 @@ class RoleSeeder extends Seeder
 
         $user = User::create(array(
             'name' => 'Administrator',
-            'email' => 'admin@bitdyne.com',
+            'email' => 'contact@bitdyne.com',
             'password' => Hash::make('admin123'),
         ));
 
